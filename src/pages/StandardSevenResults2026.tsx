@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import './ResultsPage.css'
 import {
   ArrowLeft,
@@ -11,33 +11,36 @@ import {
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 const CURRENT_YEAR = new Date().getUTCFullYear()
+const NECTA_RESULTS_BASE_URL =
+  'https://matokeo.necta.go.tz/results/2026/psle/results'
+
 const regions = [
-  'Arusha',
-  'Dar es Salaam',
-  'Dodoma',
-  'Geita',
-  'Iringa',
-  'Kagera',
-  'Katavi',
-  'Kigoma',
-  'Kilimanjaro',
-  'Lindi',
-  'Manyara',
-  'Mara',
-  'Mbeya',
-  'Morogoro',
-  'Mtwara',
-  'Mwanza',
-  'Njombe',
-  'Pwani',
-  'Rukwa',
-  'Ruvuma',
-  'Shinyanga',
-  'Simiyu',
-  'Singida',
-  'Songwe',
-  'Tabora',
-  'Tanga',
+  { name: 'Arusha', file: 'reg_01.htm' },
+  { name: 'Dar es Salaam', file: 'reg_02.htm' },
+  { name: 'Dodoma', file: 'reg_03.htm' },
+  { name: 'Geita', file: 'reg_24.htm' },
+  { name: 'Iringa', file: 'reg_04.htm' },
+  { name: 'Kagera', file: 'reg_05.htm' },
+  { name: 'Katavi', file: 'reg_25.htm' },
+  { name: 'Kigoma', file: 'reg_06.htm' },
+  { name: 'Kilimanjaro', file: 'reg_07.htm' },
+  { name: 'Lindi', file: 'reg_08.htm' },
+  { name: 'Manyara', file: 'reg_21.htm' },
+  { name: 'Mara', file: 'reg_09.htm' },
+  { name: 'Mbeya', file: 'reg_10.htm' },
+  { name: 'Morogoro', file: 'reg_11.htm' },
+  { name: 'Mtwara', file: 'reg_12.htm' },
+  { name: 'Mwanza', file: 'reg_13.htm' },
+  { name: 'Njombe', file: 'reg_26.htm' },
+  { name: 'Pwani', file: 'reg_14.htm' },
+  { name: 'Rukwa', file: 'reg_15.htm' },
+  { name: 'Ruvuma', file: 'reg_16.htm' },
+  { name: 'Shinyanga', file: 'reg_17.htm' },
+  { name: 'Simiyu', file: 'reg_27.htm' },
+  { name: 'Singida', file: 'reg_18.htm' },
+  { name: 'Songwe', file: 'reg_31.htm' },
+  { name: 'Tabora', file: 'reg_19.htm' },
+  { name: 'Tanga', file: 'reg_20.htm' },
 ]
 
 const NECTA_RESULTS_URL =
@@ -56,6 +59,18 @@ const HOME_DESCRIPTION =
 const HOME_URL = 'https://des.co.tz/'
 
 function StandardSevenResults2026() {
+    const [regionSearch, setRegionSearch] = useState('')
+
+  const filteredRegions = regions
+    .map((region, index) => ({
+      ...region,
+      number: index + 1,
+    }))
+    .filter((region) =>
+      region.name
+        .toLowerCase()
+        .includes(regionSearch.trim().toLowerCase()),
+    )
   useEffect(() => {
   const resultsMetadata = [
     {
@@ -226,17 +241,56 @@ function StandardSevenResults2026() {
             <span>{regions.length} Regions</span>
           </div>
 
-          <div className="results-region-grid">
-            {regions.map((region, index) => (
-              <div className="results-region-card" key={region}>
-                <span className="results-region-number">
-                  {String(index + 1).padStart(2, '0')}
-                </span>
-                <span>{region}</span>
-                <ArrowUpRight size={16} />
-              </div>
-            ))}
-          </div>
+          <div className="results-region-search">
+  <Search size={20} />
+
+  <input
+    type="search"
+    placeholder="Search a region, e.g. Mwanza..."
+    aria-label="Search regions of Tanzania"
+    value={regionSearch}
+    onChange={(event) => setRegionSearch(event.target.value)}
+  />
+
+  {regionSearch && (
+    <button
+      type="button"
+      onClick={() => setRegionSearch('')}
+      aria-label="Clear region search"
+    >
+      Clear
+    </button>
+  )}
+</div>
+
+<p className="results-region-count" aria-live="polite">
+  Showing {filteredRegions.length} of {regions.length} regions
+</p>
+
+<div className="results-region-grid">
+  {filteredRegions.length > 0 ? (
+    filteredRegions.map((region) => (
+      <a
+        className="results-region-card"
+        key={region.name}
+        href={`${NECTA_RESULTS_BASE_URL}/${region.file}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`View ${region.name} examination results on NECTA`}
+      >
+        <span className="results-region-number">
+          {String(region.number).padStart(2, '0')}
+        </span>
+        <span>{region.name}</span>
+        <ArrowUpRight size={16} />
+      </a>
+    ))
+  ) : (
+    <p className="results-region-empty">
+      No region found. Try another region name.
+    </p>
+  )}
+</div>
 
           <div className="results-bottom-cta">
             <div>
