@@ -11,8 +11,9 @@ import {
   X,
 } from 'lucide-react'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import './App.css'
-
+const CURRENT_YEAR = new Date().getUTCFullYear()
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
 
@@ -83,6 +84,9 @@ function App() {
             <a href="#about" onClick={closeMenu}>About</a>
             <a href="#solutions" onClick={closeMenu}>Solutions</a>
             <a href="#projects" onClick={closeMenu}>Projects</a>
+            <Link to="/matokeo-darasa-la-saba-2026" onClick={closeMenu}>
+              Matokeo 2026
+            </Link>
             <a href="#contact" onClick={closeMenu}>Contact</a>
             <a
               href="https://learn.des.co.tz"
@@ -322,7 +326,7 @@ function App() {
 
         <div className="footer-bottom">
           <div className="container">
-            © {new Date().getFullYear()} Digital Education Solutions (DES).
+            © {CURRENT_YEAR} Digital Education Solutions (DES).
             All rights reserved.
           </div>
         </div>
