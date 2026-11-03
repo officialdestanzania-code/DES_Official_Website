@@ -88,7 +88,7 @@ function App() {
               href="https://learn.des.co.tz"
               className="nav-cta"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               Learning Platform <ArrowRight size={16} />
             </a>
@@ -246,7 +246,7 @@ function App() {
               <a
                 href="https://learn.des.co.tz"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="btn btn-light"
               >
                 Visit Learning Platform <ArrowRight size={18} />
@@ -292,13 +292,13 @@ function App() {
             <a href="mailto:officialdestanzania@gmail.com">
               officialdestanzania@gmail.com
             </a>
-            <a href="https://learn.des.co.tz" target="_blank" rel="noreferrer">
+            <a href="https://learn.des.co.tz" target="_blank" rel="noopener noreferrer">
               DES AI Learning Platform
             </a>
             <a
               href="https://www.youtube.com/@DESTanzania"
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="youtube-link"
             >
               <svg
