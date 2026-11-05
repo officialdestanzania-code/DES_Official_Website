@@ -483,15 +483,26 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
+  column-gap: 12px;
+  row-gap: 10px;
 }
 .partner-contribution-meta > span {
-  padding: 4px 8px;
-  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 27px;
+  padding: 5px 10px;
+  border-radius: 999px;
   background: #f1f5f9;
   color: #475569;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 750;
+  line-height: 1.35;
+}
+.partner-contribution-meta .partner-contribution-quantity {
+  gap: 4px;
+}
+.partner-contribution-meta .partner-contribution-status {
+  white-space: nowrap;
 }
 .partner-contribution-meta .partner-contribution-status {
   background: #dcfce7;
