@@ -38,6 +38,7 @@ type SanityPartner = {
   location?: string
   summary: string
   role: string
+  statusNote?: string
   group?: { slug: string; title: string; description: string }
   affiliation?: { name: string; slug: string }
   sources?: PartnerSource[]
@@ -128,6 +129,7 @@ export async function fetchPartnerDirectoryFromCms(): Promise<PartnerDirectoryDa
       location: record.location ?? 'Butimba project community',
       summary: record.summary,
       role: record.role,
+      ...(record.statusNote ? { statusNote: record.statusNote } : {}),
       ...(record.affiliation ? {
         affiliation: {
           name: record.affiliation.name,
