@@ -1,8 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://des.co.tz/</loc>
-  </url>
+  <url><loc>https://des.co.tz/</loc></url>
+  <url><loc>https://des.co.tz/solutions</loc></url>
+  <url><loc>https://des.co.tz/solutions/digital-learning-platforms</loc></url>
+  <url><loc>https://des.co.tz/solutions/ai-in-education</loc></url>
+  <url><loc>https://des.co.tz/solutions/school-ict-transformation</loc></url>
+  <url><loc>https://des.co.tz/solutions/coding-robotics-creative-technology</loc></url>
+  <url><loc>https://des.co.tz/solutions/software-development</loc></url>
+  <url><loc>https://des.co.tz/solutions/digital-skills-training</loc></url>
+  <url><loc>https://des.co.tz/projects</loc></url>
+  <url><loc>https://des.co.tz/projects/des-ai-learning-platform</loc></url>
+  <url><loc>https://des.co.tz/projects/butimba-digital-learning-computer-room</loc></url>
+  <url><loc>https://des.co.tz/projects/des-necta-results-portal</loc></url>
+  <url><loc>https://des.co.tz/resources</loc></url>
+  <url><loc>https://des.co.tz/partners</loc><lastmod>2026-11-05</lastmod></url>
+  <url><loc>https://des.co.tz/partners/labdoo</loc><lastmod>2026-11-05</lastmod></url>
+  <url><loc>https://des.co.tz/partners/mwanza-ev</loc><lastmod>2026-11-05</lastmod></url>
+  <url><loc>https://des.co.tz/partners/thomas-barcatta</loc><lastmod>2026-11-05</lastmod></url>
+  <url><loc>https://des.co.tz/partners/gundolf-family</loc><lastmod>2026-11-05</lastmod></url>
+  <url><loc>https://des.co.tz/partners/herman-tanguye</loc><lastmod>2026-11-05</lastmod></url>
+  <url><loc>https://des.co.tz/partners/samwel-tanguye</loc><lastmod>2026-11-05</lastmod></url>
+  <url><loc>https://des.co.tz/partners/dr-ancyfrida-prosper</loc><lastmod>2026-11-05</lastmod></url>
   <url>
     <loc>https://des.co.tz/matokeo-darasa-la-saba-2026</loc>
     <lastmod>2026-11-03</lastmod>

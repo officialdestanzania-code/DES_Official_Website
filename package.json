@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build && node scripts/prerender.mjs",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "validate:preview": "npm run lint && npm run build"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
@@ -15,7 +16,9 @@
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-router-dom": "^7.18.5",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "@sanity/client": "^8.11.0",
+    "sanity": "^6.22.0"
   },
   "devDependencies": {
     "@types/node": "^24.19.2",
@@ -25,5 +28,10 @@
     "oxlint": "^1.89.0",
     "typescript": "~7.0.2",
     "vite": "^8.3.5"
+  },
+  "overrides": {
+    "js-yaml": "3.15.2",
+    "smol-toml": "1.9.1",
+    "undici": "7.30.1"
   }
 }
