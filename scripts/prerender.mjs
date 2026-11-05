@@ -176,16 +176,42 @@ async function main() {
   })
 
   try {
+    const partnerDataModule = await vite.ssrLoadModule('/src/data/sanityPartners.ts')
+    const cmsPartnerDirectory = await partnerDataModule.fetchPartnerDirectoryFromCms()
+    const partnerProfileRoutes = (cmsPartnerDirectory?.partners ?? []).map((partner) => ({
+      path: '/partners/' + partner.slug,
+      module: '/src/pages/ButimbaPartnersPage.tsx',
+      props: { initialDirectory: cmsPartnerDirectory },
+      title: partner.name + ' | Butimba Partners | DES Tanzania',
+      description: partner.summary,
+    }))
+
+    const routeMap = new Map(routes.map((route) => [route.path, route]))
+    for (const route of partnerProfileRoutes) routeMap.set(route.path, route)
+    const partnerDirectoryRoute = routeMap.get('/partners')
+    if (partnerDirectoryRoute && cmsPartnerDirectory) {
+      routeMap.set('/partners', {
+        ...partnerDirectoryRoute,
+        props: { initialDirectory: cmsPartnerDirectory },
+      })
+    }
+    for (const route of routeMap.values()) {
+      if (route.module === '/src/pages/ButimbaPartnersPage.tsx' && cmsPartnerDirectory) {
+        route.props = { ...(route.props ?? {}), initialDirectory: cmsPartnerDirectory }
+      }
+    }
+    const routesToRender = [...routeMap.values()]
+
     const modules = new Map()
 
-    for (const route of routes) {
+    for (const route of routesToRender) {
       if (!modules.has(route.module)) {
         const loaded = await vite.ssrLoadModule(route.module)
         modules.set(route.module, loaded.default)
       }
     }
 
-    for (const route of routes) {
+    for (const route of routesToRender) {
       const Page = modules.get(route.module)
       const renderedPage = renderToString(
         React.createElement(
@@ -201,9 +227,15 @@ async function main() {
         route.path.replace(/^\/+/, ''),
       )
       const outputFile = path.join(outputDirectory, 'index.html')
+      const partnerDataScript =
+        route.module === '/src/pages/ButimbaPartnersPage.tsx' && cmsPartnerDirectory
+          ? '<script>window.__DES_PARTNER_DIRECTORY__=' +
+            JSON.stringify(cmsPartnerDirectory).replaceAll('<', '\\u003c') +
+            ';</script>'
+          : ''
       let html = indexTemplate.replace(
         '<div id="root"></div>',
-        '<div id="root" data-prerendered="true">' + renderedPage + '</div>',
+        partnerDataScript + '<div id="root" data-prerendered="true">' + renderedPage + '</div>',
       )
 
       html = html.replace(/<title>[\s\S]*?<\/title>/i, '<title>' + route.title + '</title>')
@@ -228,7 +260,26 @@ async function main() {
       console.log('Prerendered ' + route.path + ' (' + Buffer.byteLength(html) + ' bytes)')
     }
 
-    console.log('Prerender completed successfully for ' + routes.length + ' routes.')
+    const sitemapFile = path.join(distDirectory, 'sitemap.xml')
+    try {
+      let sitemap = await readFile(sitemapFile, 'utf8')
+      for (const route of routesToRender.filter((item) => item.path.startsWith('/partners/'))) {
+        const url = 'https://des.co.tz' + route.path
+        if (!sitemap.includes('<loc>' + url + '</loc>')) {
+          sitemap = sitemap.replace(
+            '</urlset>',
+            '  <url><loc>' + url + '</loc><lastmod>' +
+              new Date().toISOString().slice(0, 10) +
+              '</lastmod></url>\\n</urlset>',
+          )
+        }
+      }
+      await writeFile(sitemapFile, sitemap, 'utf8')
+    } catch (error) {
+      console.warn('Could not update sitemap with CMS partner profiles:', error)
+    }
+
+    console.log('Prerender completed successfully for ' + routesToRender.length + ' routes.')
   } finally {
     await vite.close()
   }
