@@ -125,7 +125,11 @@ function PartnerProfile({ partner }: { partner: ButimbaPartner }) {
                   </div>
                   <p>{contribution.description}</p>
                   <div className="partner-contribution-meta">
-                    {contribution.quantity && <span>{contribution.quantity}</span>}
+                    {contribution.quantity && (
+                      <span className="partner-contribution-quantity">
+                        <strong>Quantity:</strong> {contribution.quantity}
+                      </span>
+                    )}
                     <span className={'partner-contribution-status status-' + contribution.status}>
                       {contribution.status === 'completed'
                         ? 'Completed'
