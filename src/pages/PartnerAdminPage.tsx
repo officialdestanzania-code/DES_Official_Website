@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import { Studio } from 'sanity'
 import { ArrowLeft, ShieldCheck } from 'lucide-react'
-import { isSanityConfigured, studioConfig } from '../sanity/studioConfig'
+import { isSanityConfigured } from '../sanity/sanityEnv'
+import { studioConfig } from '../sanity/studioConfig'
 import './PartnerAdminPage.css'
 
 export default function PartnerAdminPage() {
