@@ -13,6 +13,7 @@ declare global {
   }
 }
 
+const CURRENT_YEAR = new Date().getUTCFullYear()
 const projectUrl = '/projects/butimba-digital-learning-computer-room'
 
 function PageHeader() {
@@ -244,7 +245,7 @@ export default function ButimbaPartnersPage({ initialDirectory }: { initialDirec
       )}
       <footer className="partner-footer">
         <div className="partner-container">
-          <span>© {new Date().getUTCFullYear()} Digital Education Solutions (DES).</span>
+          <span>© {CURRENT_YEAR} Digital Education Solutions (DES).</span>
           <Link to="/">DES Official Website</Link>
         </div>
       </footer>
