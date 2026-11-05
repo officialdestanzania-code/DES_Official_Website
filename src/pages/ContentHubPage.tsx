@@ -80,7 +80,7 @@ function SolutionCard({ item }: { item: SolutionItem }) {
       <div className="hub-card-icon"><Icon size={27} /></div>
       <h2>{item.title}</h2>
       <p>{item.summary}</p>
-      <Link to={\`/solutions/\${item.slug}\`} className="hub-card-link">
+      <Link to={`/solutions/${item.slug}`} className="hub-card-link">
         Explore solution <ArrowRight size={16} />
       </Link>
     </article>
@@ -90,12 +90,12 @@ function SolutionCard({ item }: { item: SolutionItem }) {
 function ProjectCard({ item }: { item: ProjectItem }) {
   return (
     <article className="hub-card">
-      <span className={\`hub-status hub-status-\${item.status.toLowerCase().replaceAll(' ', '-')}\`}>
+      <span className={`hub-status hub-status-${item.status.toLowerCase().replaceAll(' ', '-')}`}>
         {item.status}
       </span>
       <h2>{item.title}</h2>
       <p>{item.summary}</p>
-      <Link to={\`/projects/\${item.slug}\`} className="hub-card-link">
+      <Link to={`/projects/${item.slug}`} className="hub-card-link">
         View project <ArrowRight size={16} />
       </Link>
     </article>
@@ -153,7 +153,7 @@ function SolutionDetail({ item }: { item: SolutionItem }) {
             <h2>Discuss this solution with DES</h2>
             <p>Tell us about your school, organisation or learning needs.</p>
           </div>
-          <a href={\`mailto:officialdestanzania@gmail.com?subject=\${encodeURIComponent(item.title)}\`} className="hub-button">
+          <a href={`mailto:officialdestanzania@gmail.com?subject=${encodeURIComponent(item.title)}`} className="hub-button">
             Make an enquiry <ArrowRight size={17} />
           </a>
         </div>
@@ -169,7 +169,7 @@ function ProjectDetail({ item }: { item: ProjectItem }) {
         <div className="hub-container">
           <Link to="/projects" className="hub-back-link"><ArrowLeft size={16} /> All Projects</Link>
           <span className="hub-eyebrow">DES PROJECT</span>
-          <span className={\`hub-status hub-status-\${item.status.toLowerCase().replaceAll(' ', '-')}\`}>
+          <span className={`hub-status hub-status-${item.status.toLowerCase().replaceAll(' ', '-')}`}>
             {item.status}
           </span>
           <h1>{item.title}</h1>
@@ -247,8 +247,8 @@ export default function ContentHubPage({ section }: { section: Section }) {
   useEffect(() => {
     const pageTitle = solution?.title ?? project?.title
     document.title = pageTitle
-      ? \`\${pageTitle} | DES Tanzania\`
-      : \`\${titles[section].title} | DES Tanzania\`
+      ? `${pageTitle} | DES Tanzania`
+      : `${titles[section].title} | DES Tanzania`
   }, [section, solution, project])
 
   let content
@@ -263,7 +263,7 @@ export default function ContentHubPage({ section }: { section: Section }) {
       <main className="hub-container hub-main">
         <h1>Page not found</h1>
         <p>The requested DES page could not be found.</p>
-        <Link to={\`/\${section}\`} className="hub-button">Return to {titles[section].title}</Link>
+        <Link to={`/${section}`} className="hub-button">Return to {titles[section].title}</Link>
       </main>
     )
   } else {
