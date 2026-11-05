@@ -25,6 +25,7 @@ The Butimba Partners pages use Sanity as the content management system. Sanity S
    ```
    The NDJSON file contains the three partner groups, seven partner profiles and eight contribution records currently recorded for Butimba.
 6. Redeploy the Vercel Preview after setting the environment variables. Confirm `/admin` opens Sanity Studio, and test creating a draft partner and contribution before publishing.
+7. After production is approved, create a Vercel Deploy Hook for the `main` branch and register that hook as a Sanity webhook for published partner, partner-group and contribution changes. Keep the deploy-hook URL private. The build prerenders published CMS profiles and refreshes the sitemap.
 
 ## Adding a new supporter
 
@@ -42,3 +43,4 @@ The Butimba Partners pages use Sanity as the content management system. Sanity S
 - Do not store private pupil information, personal phone numbers, identity documents or confidential school records in public partner profiles.
 - Keep an export backup before bulk changes or migrations.
 - A CMS connection is not active until the project ID/dataset and CORS origins have been configured in Sanity and Vercel.
+- After a content publish, the public site can load published records from Sanity. A Vercel deploy hook is needed to refresh prerendered HTML and sitemap entries for search engines.
