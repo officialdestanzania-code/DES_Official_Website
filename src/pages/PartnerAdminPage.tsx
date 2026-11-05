@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Studio } from 'sanity'
-import { ArrowLeft, ShieldCheck } from 'lucide-react'
+import { ArrowLeft, ExternalLink, ShieldCheck } from 'lucide-react'
 import { isSanityConfigured } from '../sanity/sanityEnv'
 import { studioConfig } from '../sanity/studioConfig'
 import './PartnerAdminPage.css'
@@ -15,16 +15,25 @@ export default function PartnerAdminPage() {
           <h1>Admin CMS is not connected yet</h1>
           <p>
             The partner management workspace is ready, but it must be connected
-            to a Sanity project before administrators can sign in and publish content.
+            to Sanity through Vercel before administrators can sign in and publish content.
           </p>
+          <a
+            href="https://vercel.com/marketplace/sanity"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="partner-admin-install"
+          >
+            Install Sanity on Vercel <ExternalLink size={16} />
+          </a>
           <ol>
-            <li>Create a Sanity project and a dataset named <strong>production</strong>.</li>
-            <li>Add the project ID and dataset to Vercel environment variables:
-              <code>VITE_SANITY_PROJECT_ID</code> and <code>VITE_SANITY_DATASET</code>.
-            </li>
-            <li>Add <code>https://des.co.tz</code> and the Preview domain to Sanity API CORS origins with authenticated requests enabled.</li>
-            <li>Invite approved administrators in Sanity Manage; do not share a common password.</li>
+            <li>Install Sanity on the existing <strong>des-official-website</strong> Vercel project. Create a new Sanity account/project or connect an account DES already owns.</li>
+            <li>Choose the environment-variable prefix <code>VITE_</code> and apply it to <strong>Preview and Production</strong>. Use the Free plan unless a paid plan has been separately approved.</li>
+            <li>In Sanity, add <code>https://des.co.tz</code> and the exact Preview domain to API CORS origins; enable authenticated requests for Studio.</li>
+            <li>Connect a Google or GitHub sign-in method, then invite approved administrators individually. Do not share a common password.</li>
           </ol>
+          <p className="partner-admin-security-note">
+            Keep Sanity read/write tokens private. Only the project ID and dataset name should use the public <code>VITE_</code> prefix.
+          </p>
           <Link to="/partners" className="partner-admin-back">
             <ArrowLeft size={16} /> Return to partner directory
           </Link>
