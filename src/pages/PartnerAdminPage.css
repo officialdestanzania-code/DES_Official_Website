@@ -71,3 +71,32 @@
 .partner-admin-studio > div {
   min-height: 100%;
 }
+
+
+.partner-admin-install {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 46px;
+  margin: 18px 0 12px;
+  padding: 12px 18px;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+}
+.partner-admin-install:hover {
+  background: #102a43;
+}
+.partner-admin-security-note {
+  margin: 16px 0 22px;
+  padding: 12px 15px;
+  border-left: 3px solid #d97706;
+  border-radius: 6px;
+  background: #fffbeb;
+  color: #92400e !important;
+  font-size: 12px !important;
+}
