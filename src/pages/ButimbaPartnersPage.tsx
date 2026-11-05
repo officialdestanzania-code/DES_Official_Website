@@ -1,7 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, ExternalLink, Handshake, Image as ImageIcon } from 'lucide-react'
 import { butimbaPartners, partnerGroups } from '../data/butimbaPartners'
+import type { ButimbaPartner, PartnerGroup } from '../data/butimbaPartners'
+import { fetchPartnerDirectoryFromCms } from '../data/sanityPartners'
 import './ButimbaPartnersPage.css'
 
 const projectUrl = '/projects/butimba-digital-learning-computer-room'
@@ -21,7 +23,7 @@ function PageHeader() {
   )
 }
 
-function PartnerCard({ partner }: { partner: (typeof butimbaPartners)[number] }) {
+function PartnerCard({ partner }: { partner: ButimbaPartner }) {
   return (
     <article className="partner-card">
       <div className="partner-card-mark"><Handshake size={25} /></div>
@@ -36,7 +38,7 @@ function PartnerCard({ partner }: { partner: (typeof butimbaPartners)[number] })
   )
 }
 
-function PartnerDirectory() {
+function PartnerDirectory({ partners, groups }: { partners: ButimbaPartner[]; groups: PartnerGroup[] }) {
   return (
     <>
       <section className="partner-hero">
@@ -52,8 +54,8 @@ function PartnerDirectory() {
           <p>Each supporter has an individual profile link recording their role and the contribution connected with the Butimba project. New contributions and verified photographs can be added as the project grows.</p>
         </div>
         <div className="partner-group-list">
-          {partnerGroups.map((group) => {
-            const groupPartners = butimbaPartners.filter((partner) => partner.groupSlug === group.slug)
+          {groups.map((group) => {
+            const groupPartners = partners.filter((partner) => partner.groupSlug === group.slug)
             if (groupPartners.length === 0) return null
             return (
               <section className="partner-group-section" key={group.slug}>
@@ -75,7 +77,7 @@ function PartnerDirectory() {
   )
 }
 
-function PartnerProfile({ partner }: { partner: (typeof butimbaPartners)[number] }) {
+function PartnerProfile({ partner }: { partner: ButimbaPartner }) {
   return (
     <>
       <section className="partner-hero partner-profile-hero">
@@ -184,9 +186,27 @@ function PartnerProfile({ partner }: { partner: (typeof butimbaPartners)[number]
 
 export default function ButimbaPartnersPage() {
   const { pathname } = useLocation()
+  const [directory, setDirectory] = useState({ partners: butimbaPartners, groups: partnerGroups })
+  const [cmsLoaded, setCmsLoaded] = useState(false)
   const pathSegments = pathname.split('/').filter(Boolean)
   const slug = pathSegments.length > 1 ? pathSegments[pathSegments.length - 1] : undefined
-  const partner = slug ? butimbaPartners.find((item) => item.slug === slug) : undefined
+
+  useEffect(() => {
+    let cancelled = false
+    fetchPartnerDirectoryFromCms()
+      .then((result) => {
+        if (!cancelled && result) setDirectory(result)
+      })
+      .catch((error: unknown) => {
+        console.error('Could not load published partner records from CMS:', error)
+      })
+      .finally(() => {
+        if (!cancelled) setCmsLoaded(true)
+      })
+    return () => { cancelled = true }
+  }, [])
+
+  const partner = slug ? directory.partners.find((item) => item.slug === slug) : undefined
 
   useEffect(() => {
     document.title = partner
@@ -199,6 +219,10 @@ export default function ButimbaPartnersPage() {
       <PageHeader />
       {partner ? (
         <PartnerProfile partner={partner} />
+      ) : slug && !cmsLoaded ? (
+        <main className="partner-container partner-main partner-not-found">
+          <h1>Loading partner profile…</h1>
+        </main>
       ) : slug ? (
         <main className="partner-container partner-main partner-not-found">
           <h1>Partner profile not found</h1>
@@ -206,7 +230,7 @@ export default function ButimbaPartnersPage() {
           <Link to="/partners" className="partner-primary-button">View all partners</Link>
         </main>
       ) : (
-        <PartnerDirectory />
+        <PartnerDirectory partners={directory.partners} groups={directory.groups} />
       )}
       <footer className="partner-footer">
         <div className="partner-container">
