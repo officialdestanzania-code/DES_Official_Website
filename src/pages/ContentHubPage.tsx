@@ -22,6 +22,8 @@ import './ContentHubPage.css'
 
 type Section = 'solutions' | 'projects' | 'resources'
 
+const CURRENT_YEAR = new Date().getUTCFullYear()
+
 const DES_EMAIL = 'officialdestanzania@gmail.com'
 
 const gmailComposeLink = (subject: string) =>
@@ -331,7 +333,7 @@ export default function ContentHubPage({ section }: { section: Section }) {
       {content}
       <footer className="hub-footer">
         <div className="hub-container">
-          <span>© {new Date().getUTCFullYear()} Digital Education Solutions (DES).</span>
+          <span>© {CURRENT_YEAR} Digital Education Solutions (DES).</span>
           <Link to="/">DES Official Website</Link>
         </div>
       </footer>
