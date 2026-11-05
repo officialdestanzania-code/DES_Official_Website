@@ -27,12 +27,12 @@ export default function PartnerAdminPage() {
           </a>
           <ol>
             <li>Install Sanity on the existing <strong>des-official-website</strong> Vercel project. Create a new Sanity account/project or connect an account DES already owns.</li>
-            <li>Choose the environment-variable prefix <code>VITE_</code> and apply it to <strong>Preview and Production</strong>. Use the Free plan unless a paid plan has been separately approved.</li>
-            <li>In Sanity, add <code>https://des.co.tz</code> and the exact Preview domain to API CORS origins; enable authenticated requests for Studio.</li>
+            <li>For this Vite application, enter <code>VITE</code> as the Custom Prefix (without a trailing underscore). Connect <strong>Preview</strong> first; add Production only after Preview has been tested and approved. Use the Free plan unless DES has separately approved a paid plan.</li>
+            <li>In Sanity, add the production domain and exact Vercel Preview origin to API CORS origins; enable authenticated requests for Studio.</li>
             <li>Connect a Google or GitHub sign-in method, then invite approved administrators individually. Do not share a common password.</li>
           </ol>
           <p className="partner-admin-security-note">
-            Keep Sanity read/write tokens private. Only the project ID and dataset name should use the public <code>VITE_</code> prefix.
+            The Sanity project ID and dataset are public configuration. Never read Sanity read/write tokens from <code>import.meta.env</code> or expose them in browser code.
           </p>
           <Link to="/partners" className="partner-admin-back">
             <ArrowLeft size={16} /> Return to partner directory
