@@ -4,7 +4,14 @@ import { ArrowLeft, ArrowRight, ExternalLink, Handshake, Image as ImageIcon } fr
 import { butimbaPartners, partnerGroups } from '../data/butimbaPartners'
 import type { ButimbaPartner, PartnerGroup } from '../data/butimbaPartners'
 import { fetchPartnerDirectoryFromCms } from '../data/sanityPartners'
+import type { PartnerDirectoryData } from '../data/sanityPartners'
 import './ButimbaPartnersPage.css'
+
+declare global {
+  interface Window {
+    __DES_PARTNER_DIRECTORY__?: PartnerDirectoryData
+  }
+}
 
 const projectUrl = '/projects/butimba-digital-learning-computer-room'
 
@@ -184,9 +191,12 @@ function PartnerProfile({ partner }: { partner: ButimbaPartner }) {
   )
 }
 
-export default function ButimbaPartnersPage() {
+export default function ButimbaPartnersPage({ initialDirectory }: { initialDirectory?: PartnerDirectoryData }) {
   const { pathname } = useLocation()
-  const [directory, setDirectory] = useState({ partners: butimbaPartners, groups: partnerGroups })
+  const browserDirectory = typeof window !== 'undefined' ? window.__DES_PARTNER_DIRECTORY__ : undefined
+  const [directory, setDirectory] = useState<PartnerDirectoryData>(
+    () => initialDirectory ?? browserDirectory ?? { partners: butimbaPartners, groups: partnerGroups },
+  )
   const [cmsLoaded, setCmsLoaded] = useState(false)
   const pathSegments = pathname.split('/').filter(Boolean)
   const slug = pathSegments.length > 1 ? pathSegments[pathSegments.length - 1] : undefined
