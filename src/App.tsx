@@ -4,6 +4,7 @@ import {
   BrainCircuit,
   Code2,
   Palette,
+  Laptop,
   Menu,
   GraduationCap,
   Globe,
@@ -13,48 +14,19 @@ import {
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './App.css'
+import { projects, solutions } from './data/siteContent'
 const CURRENT_YEAR = new Date().getUTCFullYear()
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
 
-  const solutions = [
-    {
-      icon: GraduationCap,
-      title: 'Digital Education',
-      description:
-        'Promoting accessible digital learning resources and innovative educational experiences.',
-    },
-    {
-      icon: BrainCircuit,
-      title: 'Artificial Intelligence',
-      description:
-        'Exploring AI-powered solutions that support teaching, learning and educational development.',
-    },
-    {
-      icon: Code2,
-      title: 'Software Development',
-      description:
-        'Building digital platforms and applications that address real-world educational needs.',
-    },
-    {
-      icon: Palette,
-      title: 'Creative Technology',
-      description:
-        'Inspiring creativity through robotics, programming, digital art and 3D design.',
-    },
-    {
-      icon: BookOpen,
-      title: 'Digital Skills Training',
-      description:
-        'Supporting practical technology skills for learners, educators and communities.',
-    },
-    {
-      icon: Globe,
-      title: 'Projects & Partnerships',
-      description:
-        'Building collaborations that expand opportunities through education and technology.',
-    },
-  ]
+  const solutionIcons = {
+    learning: BookOpen,
+    ai: BrainCircuit,
+    ict: Laptop,
+    creative: Palette,
+    software: Code2,
+    skills: GraduationCap,
+  }
 
   const closeMenu = () => setMenuOpen(false)
 
@@ -84,8 +56,9 @@ function App() {
             <a href="#about" onClick={closeMenu}>About</a>
             <a href="#solutions" onClick={closeMenu}>Solutions</a>
             <a href="#projects" onClick={closeMenu}>Projects</a>
+            <Link to="/resources" onClick={closeMenu}>Resources</Link>
             <Link to="/matokeo-darasa-la-saba-2026" onClick={closeMenu}>
-              Matokeo 2026
+              PSLE Results 2026
             </Link>
             <a href="#contact" onClick={closeMenu}>Contact</a>
             <a
@@ -218,18 +191,21 @@ function App() {
 
             <div className="solutions-grid">
               {solutions.map((solution) => {
-                const Icon = solution.icon
+                const Icon = solutionIcons[solution.icon]
 
                 return (
-                  <article className="solution-card" key={solution.title}>
+                  <article className="solution-card" key={solution.slug}>
                     <div className="solution-icon">
                       <Icon size={27} />
                     </div>
                     <h3>{solution.title}</h3>
-                    <p>{solution.description}</p>
-                    <a href="#contact" aria-label={`Learn more about ${solution.title}`}>
+                    <p>{solution.summary}</p>
+                    <Link
+                      to={`/solutions/${solution.slug}`}
+                      aria-label={`Learn more about ${solution.title}`}
+                    >
                       Explore <ArrowRight size={16} />
-                    </a>
+                    </Link>
                   </article>
                 )
               })}
@@ -238,26 +214,32 @@ function App() {
         </section>
 
         <section className="platform-section section-padding" id="projects">
-          <div className="container platform-card">
-            <div className="platform-content">
-              <span className="platform-label">FEATURED DIGITAL INITIATIVE</span>
-              <h2>Discover the DES AI Learning Platform</h2>
+          <div className="container">
+            <div className="section-heading">
+              <span className="section-label">OUR WORK</span>
+              <h2>Projects That Turn Ideas Into <span>Action</span></h2>
               <p>
-                An evolving digital learning platform designed to support
-                teachers and learners through technology-enhanced
-                educational experiences.
+                Explore DES initiatives in digital learning, school ICT and access to educational information.
               </p>
-              <a
-                href="https://learn.des.co.tz"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-light"
-              >
-                Visit Learning Platform <ArrowRight size={18} />
-              </a>
             </div>
-            <div className="platform-icon">
-              <BrainCircuit size={115} strokeWidth={1.2} />
+            <div className="home-projects-grid">
+              {projects.map((project) => (
+                <article className="home-project-card" key={project.slug}>
+                  <span className={`home-project-status home-project-status-${project.status.toLowerCase().replaceAll(' ', '-')}`}>
+                    {project.status}
+                  </span>
+                  <h3>{project.title}</h3>
+                  <p>{project.summary}</p>
+                  <Link to={`/projects/${project.slug}`}>
+                    View project <ArrowRight size={16} />
+                  </Link>
+                </article>
+              ))}
+            </div>
+            <div className="home-projects-cta">
+              <Link to="/projects" className="btn btn-primary">
+                Explore All Projects <ArrowRight size={18} />
+              </Link>
             </div>
           </div>
         </section>
