@@ -270,7 +270,7 @@ async function main() {
             '</urlset>',
             '  <url><loc>' + url + '</loc><lastmod>' +
               new Date().toISOString().slice(0, 10) +
-              '</lastmod></url>\\n</urlset>',
+              '</lastmod></url>\n</urlset>',
           )
         }
       }
