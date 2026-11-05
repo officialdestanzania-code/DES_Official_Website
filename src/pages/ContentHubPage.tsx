@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
   ArrowLeft,
@@ -11,6 +11,9 @@ import {
   Palette,
   Users,
   ExternalLink,
+  Mail,
+  Copy,
+  Check,
 } from 'lucide-react'
 import { projects, resourceGroups, solutions } from '../data/siteContent'
 import type { ProjectItem, SolutionItem } from '../data/siteContent'
@@ -18,8 +21,45 @@ import './ContentHubPage.css'
 
 type Section = 'solutions' | 'projects' | 'resources'
 
+const DES_EMAIL = 'officialdestanzania@gmail.com'
+
 const gmailComposeLink = (subject: string) =>
-  `https://mail.google.com/mail/?view=cm&fs=1&to=officialdestanzania@gmail.com&su=${encodeURIComponent(subject)}`
+  `https://mail.google.com/mail/?view=cm&fs=1&to=${DES_EMAIL}&su=${encodeURIComponent(subject)}`
+
+function ContactActions({ subject }: { subject: string }) {
+  const [copyMessage, setCopyMessage] = useState('')
+
+  const copyEmail = async () => {
+    try {
+      if (!navigator.clipboard?.writeText) {
+        throw new Error('Clipboard access is unavailable')
+      }
+      await navigator.clipboard.writeText(DES_EMAIL)
+      setCopyMessage('Email address copied. Paste it into your email app.')
+    } catch {
+      setCopyMessage('Copy is unavailable here. Select the email address above and copy it.')
+    }
+  }
+
+  return (
+    <div className="hub-contact-actions">
+      <div className="hub-email-details">
+        <span className="hub-email-label">Email DES</span>
+        <span className="hub-email-address">{DES_EMAIL}</span>
+        <span className="hub-copy-status" aria-live="polite">{copyMessage}</span>
+      </div>
+      <div className="hub-contact-buttons">
+        <a href={gmailComposeLink(subject)} className="hub-button">
+          <Mail size={16} /> Open Gmail
+        </a>
+        <button type="button" className="hub-copy-button" onClick={copyEmail}>
+          {copyMessage.startsWith('Email address copied') ? <Check size={16} /> : <Copy size={16} />}
+          Copy email
+        </button>
+      </div>
+    </div>
+  )
+}
 
 const solutionIcons = {
   learning: BookOpen,
@@ -120,9 +160,7 @@ function ListingPage({ section }: { section: 'solutions' | 'projects' }) {
             <h2>Let’s work together</h2>
             <p>Contact DES to discuss a school, learning or digital innovation initiative.</p>
           </div>
-          <a href={gmailComposeLink("DES Enquiry")} target="_blank" rel="noopener noreferrer" className="hub-button">
-            Contact DES <ArrowRight size={17} />
-          </a>
+          <ContactActions subject="DES Enquiry" />
         </div>
       </main>
     </>
@@ -156,9 +194,7 @@ function SolutionDetail({ item }: { item: SolutionItem }) {
             <h2>Discuss this solution with DES</h2>
             <p>Tell us about your school, organisation or learning needs.</p>
           </div>
-          <a href={gmailComposeLink(item.title)} target="_blank" rel="noopener noreferrer" className="hub-button">
-            Make an enquiry <ArrowRight size={17} />
-          </a>
+          <ContactActions subject={item.title} />
         </div>
       </main>
     </>
@@ -206,9 +242,7 @@ function ProjectDetail({ item }: { item: ProjectItem }) {
             <h2>Interested in collaborating?</h2>
             <p>Contact DES to discuss partnership and project opportunities.</p>
           </div>
-          <a href={gmailComposeLink("DES Project Enquiry")} target="_blank" rel="noopener noreferrer" className="hub-button">
-            Contact DES <ArrowRight size={17} />
-          </a>
+          <ContactActions subject="DES Project Enquiry" />
         </div>
       </main>
     </>
