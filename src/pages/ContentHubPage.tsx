@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import {
   ArrowLeft,
   ArrowRight,
@@ -238,7 +238,9 @@ function ResourcesPage() {
 }
 
 export default function ContentHubPage({ section }: { section: Section }) {
-  const { slug } = useParams()
+  const { pathname } = useLocation()
+  const pathSegments = pathname.split('/').filter(Boolean)
+  const slug = pathSegments.length > 1 ? pathSegments[pathSegments.length - 1] : undefined
   const solution = section === 'solutions' ? solutions.find((item) => item.slug === slug) : undefined
   const project = section === 'projects' ? projects.find((item) => item.slug === slug) : undefined
 
