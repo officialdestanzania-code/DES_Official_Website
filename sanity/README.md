@@ -1,46 +1,61 @@
 # DES Partner CMS setup
 
-The Butimba Partners pages use Sanity as the content management system. Sanity Studio is available at `/admin` after the project is connected.
+The Butimba Partners pages use Sanity as the content management system. The embedded Sanity Studio is available at `/admin` after the Vercel project is connected.
 
-## Content model
+## 1. Connect Sanity through Vercel Marketplace
 
-- **Partner groups** organise supporters (for example, International Technology Partners, Friends of Butimba Primary School and Butimba Alumni Network).
-- **Partners** represent an organisation or individual and have their own public slug/profile URL.
-- **Contributions** are separate records linked to a partner. Each contribution has a year, category, quantity (optional), status, description, photographs and references.
-- **Affiliation** connects a person to an organisation. Thomas Barcatta is affiliated with Mwanza e.V.; he is not represented as an independent donating organisation.
-- **Gallery images** are published only when the administrator confirms permission for public display.
+Use the official [Sanity integration for Vercel](https://vercel.com/marketplace/sanity).
 
-## One-time project connection
+1. Install Sanity on the existing Vercel project **des-official-website**.
+2. Choose either to create a new Sanity account/project through Vercel or link an existing Sanity account. Use the account that DES will retain and administer.
+3. When asked for the environment-variable prefix, choose **`VITE_`**. This makes the public project settings available to the Vite frontend as `VITE_SANITY_PROJECT_ID` and `VITE_SANITY_DATASET`.
+4. Choose the **Free** plan unless DES has separately approved a paid plan.
+5. Apply the integration variables to **Preview and Production**. Keep the Sanity read/write tokens server-side secrets; never add `VITE_` to token names and never expose a write token in browser code.
 
-1. Create a Sanity project and a public-read dataset named `production` in Sanity Manage.
-2. In Vercel, add these environment variables to **Preview** and **Production**:
-   - `VITE_SANITY_PROJECT_ID`: the Sanity project ID (public identifier, not a secret).
-   - `VITE_SANITY_DATASET`: `production`.
-3. In Sanity Manage, open API / CORS origins and add the actual origins used by the site, including `https://des.co.tz` and the current Vercel Preview origin. Enable authenticated requests for the Studio origin.
-4. Invite each approved administrator individually in Sanity Manage. Assign only the role they need. Do not share a single admin login.
-5. From the repository root, authenticate with the Sanity CLI and import the starting records:
-   ```bash
-   npx sanity@latest login
-   npx sanity@latest dataset import sanity/initial-data.ndjson production
-   ```
-   The NDJSON file contains the three partner groups, seven partner profiles and eight contribution records currently recorded for Butimba.
-6. Redeploy the Vercel Preview after setting the environment variables. Confirm `/admin` opens Sanity Studio, and test creating a draft partner and contribution before publishing.
-7. After production is approved, create a Vercel Deploy Hook for the `main` branch and register that hook as a Sanity webhook for published partner, partner-group and contribution changes. Keep the deploy-hook URL private. The build prerenders published CMS profiles and refreshes the sitemap.
+The public partner directory uses a public-read dataset containing only information approved for publication. Do not store private pupil data, personal contact details or confidential school records there.
 
-## Adding a new supporter
+## 2. Sign-in, CORS and administrators
 
-1. In `/admin`, create or select the relevant **Partner group**.
-2. Create a **Partner / Supporter**. Set the name, URL slug, group, role, short description and location.
-3. For a person working under an organisation, set **Works under / affiliated with** to that organisation's partner profile. Do not create a duplicate organisation record.
-4. Create one or more **Contribution / Project Record** documents and link each to the correct contributor. Enter the year, category, quantity where applicable, and accurate status.
-5. Add photographs only when the school has permission for public display. For each image, provide alt text and caption, then confirm the permission checkbox.
-6. Preview the draft, then publish. Published partner records appear on the public directory and their profile URLs use `/partners/<slug>`.
+1. Open the Sanity integration dashboard in Vercel and use **Open in Sanity**.
+2. In Sanity Account Settings, connect a Google or GitHub sign-in method. Use the account that owns the Vercel/Sanity project.
+3. In the Sanity project API/CORS settings, add `https://des.co.tz` and the exact Vercel Preview origin. Enable authenticated requests for the Studio origins.
+4. Invite each administrator individually through Sanity Manage. Assign the least-privileged role that permits them to create and publish partner, group and contribution records. Do not share one admin password.
+5. Confirm the Vercel environment variables exist in Preview and Production. Trigger a Preview deployment after the integration finishes provisioning.
 
-## Security and publishing
+## 3. Import the initial Butimba records
 
-- The project ID and dataset name are public configuration; never add an API write token to a `VITE_*` variable or commit a secret.
-- Public pages use read-only published content. Create, edit, publish and upload actions require an authenticated Sanity account with the right project role.
-- Do not store private pupil information, personal phone numbers, identity documents or confidential school records in public partner profiles.
-- Keep an export backup before bulk changes or migrations.
-- A CMS connection is not active until the project ID/dataset and CORS origins have been configured in Sanity and Vercel.
-- After a content publish, the public site can load published records from Sanity. A Vercel deploy hook is needed to refresh prerendered HTML and sitemap entries for search engines.
+From a trusted computer with Node.js 22.12 or later:
+
+```bash
+npx sanity@latest login
+npx sanity@latest dataset import sanity/initial-data.ndjson production
+```
+
+The NDJSON file contains 18 initial documents:
+- 3 partner groups.
+- 7 partner profiles.
+- 8 contribution records.
+
+Import this seed file **once** into the empty `production` dataset. It records the existing Butimba project history, including Herman Tanguye's photocopy machine and 2026 school Wi-Fi, Samwel Tanguye's 15 staff-room chairs, and Dr. Ancyfrida Prosper's paused girls' menstrual hygiene room initiative.
+
+## 4. Adding a partner or contribution
+
+1. Open `https://des.co.tz/admin` and sign in to Sanity.
+2. Create/select a **Partner group** (for example, Butimba Alumni Network).
+3. Create a **Partner / Supporter** with a unique URL slug, group, category, summary, role and location.
+4. If a person works under an organisation, set **Works under / affiliated with** to the organisation profile. Example: Thomas Barcatta is affiliated with Mwanza e.V.; do not record his coordination role as a separate organisational donation.
+5. Create one or more **Contribution / Project Record** documents and link each to the correct supporter. Enter the year, contribution type, description, quantity if known, and the accurate status.
+6. Add authentic photographs only after permission for public display is confirmed. Each gallery image needs alt text, a caption and the permission checkbox selected.
+7. Preview the records and publish them. The public directory displays published content only. Each supporter receives a stable route at `/partners/<slug>`.
+
+## 5. Publishing and search indexing
+
+New profiles can load from the published CMS through the public partner directory. For new/updated pages to receive refreshed prerendered HTML and sitemap entries, create a Vercel Deploy Hook for the `main` branch and add it as a Sanity webhook for published partner, partner-group and contribution changes. Keep the Deploy Hook URL private. Do not expose it in `VITE_*` variables or commit it to Git.
+
+## Security and operations
+
+- `VITE_SANITY_PROJECT_ID` and `VITE_SANITY_DATASET` are public configuration; they are not secrets.
+- Never put `SANITY_API_WRITE_TOKEN` or other write tokens into client-side environment variables.
+- Public pages use published content; only authenticated Sanity users with project permissions can create, edit and publish records.
+- Do not publish pupil names, personal phone numbers, identity documents, sensitive school records or images without the required permissions.
+- Export a backup before bulk edits or imports.
