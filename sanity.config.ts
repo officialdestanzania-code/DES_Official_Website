@@ -1,0 +1,23 @@
+import { defineConfig } from 'sanity'
+import { structureTool } from 'sanity/structure'
+import { partnerSchemaTypes } from './src/sanity/schemaTypes'
+
+const projectId =
+  process.env.SANITY_STUDIO_PROJECT_ID ||
+  process.env.VITE_SANITY_PROJECT_ID ||
+  'replace-with-sanity-project-id'
+
+const dataset =
+  process.env.SANITY_STUDIO_DATASET ||
+  process.env.VITE_SANITY_DATASET ||
+  'production'
+
+export default defineConfig({
+  name: 'des-partners',
+  title: 'DES Partners & Contributions',
+  projectId,
+  dataset,
+  basePath: '/admin',
+  plugins: [structureTool()],
+  schema: { types: partnerSchemaTypes },
+})
