@@ -130,10 +130,11 @@ export const projects: ProjectItem[] = [
     overview: 'The initiative supports the development of a practical computer learning environment where pupils can gain experience with digital technology and structured computer lessons.',
     highlights: [
       'Fourteen Labdoo laptops were handed over in July 2025',
-      'Five additional laptops were received in February 2026, bringing the total received to nineteen',
+      'Five additional laptops were received on 13 March 2026 at MITzKits – SIDO, Mwanza, bringing the total received from Labdoo to nineteen',
+      'Butimba’s two receipt records confirm 19 laptops received against the original request for 20 devices',
       'Twelve tables and twelve benches were completed for the computer room in January 2026',
       'One steel storage cabinet was received through Mwanza e.V.',
-      'Herman Tanguye supported the school with a photocopy machine and Wi-Fi in 2026',
+      'Herman Tanguye supported the school with a photocopy machine in 2018 and Wi-Fi in 2026',
       'Samwel Tanguye purchased fifteen chairs for the staff room',
       'Dr. Ancyfrida Prosper championed a safe menstrual hygiene room for girls; construction remains paused and incomplete',
       'Further work includes strengthening the room, electricity, connectivity and learning operations',
