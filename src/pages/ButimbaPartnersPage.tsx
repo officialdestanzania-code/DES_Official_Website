@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { ArrowLeft, ArrowRight, ExternalLink, Handshake, Image as ImageIcon } from 'lucide-react'
-import { butimbaPartners } from '../data/butimbaPartners'
+import { butimbaPartners, partnerGroups } from '../data/butimbaPartners'
 import './ButimbaPartnersPage.css'
 
 const projectUrl = '/projects/butimba-digital-learning-computer-room'
@@ -51,10 +51,24 @@ function PartnerDirectory() {
           <Handshake size={24} />
           <p>Each supporter has an individual profile link recording their role and the contribution connected with the Butimba project. New contributions and verified photographs can be added as the project grows.</p>
         </div>
-        <div className="partner-grid">
-          {butimbaPartners.map((partner) => (
-            <PartnerCard key={partner.slug} partner={partner} />
-          ))}
+        <div className="partner-group-list">
+          {partnerGroups.map((group) => {
+            const groupPartners = butimbaPartners.filter((partner) => partner.groupSlug === group.slug)
+            if (groupPartners.length === 0) return null
+            return (
+              <section className="partner-group-section" key={group.slug}>
+                <div className="partner-group-heading">
+                  <h2>{group.title}</h2>
+                  <p>{group.description}</p>
+                </div>
+                <div className="partner-grid">
+                  {groupPartners.map((partner) => (
+                    <PartnerCard key={partner.slug} partner={partner} />
+                  ))}
+                </div>
+              </section>
+            )
+          })}
         </div>
       </main>
     </>
@@ -78,12 +92,43 @@ function PartnerProfile({ partner }: { partner: (typeof butimbaPartners)[number]
           <section className="partner-panel">
             <h2>Role in the Butimba Project</h2>
             <p>{partner.role}</p>
+            {partner.affiliation && (
+              <div className="partner-affiliation">
+                <span>Affiliated with</span>
+                {partner.affiliation.href ? (
+                  <Link to={partner.affiliation.href}>{partner.affiliation.name}</Link>
+                ) : (
+                  <strong>{partner.affiliation.name}</strong>
+                )}
+                <small>{partner.affiliation.description}</small>
+              </div>
+            )}
           </section>
           <section className="partner-panel">
             <h2>Contribution & Project Record</h2>
-            <ul className="partner-contributions">
-              {partner.contributions.map((contribution) => <li key={contribution}>{contribution}</li>)}
-            </ul>
+            <div className="partner-contributions">
+              {partner.contributions.map((contribution) => (
+                <article className="partner-contribution-item" key={contribution.id}>
+                  <div className="partner-contribution-heading">
+                    <h3>{contribution.title}</h3>
+                    <span className="partner-contribution-year">{contribution.year}</span>
+                  </div>
+                  <p>{contribution.description}</p>
+                  <div className="partner-contribution-meta">
+                    {contribution.quantity && <span>{contribution.quantity}</span>}
+                    <span className={'partner-contribution-status status-' + contribution.status}>
+                      {contribution.status === 'completed'
+                        ? 'Completed'
+                        : contribution.status === 'ongoing'
+                          ? 'Ongoing'
+                          : contribution.status === 'paused'
+                            ? 'Paused'
+                            : 'Coordination'}
+                    </span>
+                  </div>
+                </article>
+              ))}
+            </div>
             {partner.statusNote && <p className="partner-status-note">{partner.statusNote}</p>}
           </section>
         </div>
