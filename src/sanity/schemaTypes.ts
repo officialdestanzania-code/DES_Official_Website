@@ -56,6 +56,7 @@ const partner = defineType({
     defineField({ name: 'location', title: 'Location / affiliation label', type: 'string' }),
     defineField({ name: 'summary', title: 'Short public description', type: 'text', rows: 3, validation: (Rule) => Rule.required() }),
     defineField({ name: 'role', title: 'Role in the Butimba project', type: 'text', rows: 5, validation: (Rule) => Rule.required() }),
+    defineField({ name: 'statusNote', title: 'Public status note (optional)', type: 'text', rows: 3, description: 'Use for transparent notes about incomplete or paused initiatives.' }),
     defineField({ name: 'affiliation', title: 'Works under / affiliated with', type: 'reference', to: [{ type: 'partner' }], description: 'Use this for people working under a partner organisation, such as Thomas Barcatta under Mwanza e.V.' }),
     defineField({ name: 'sources', title: 'External project references', type: 'array', of: [{ type: 'partnerSource' }] }),
     defineField({ name: 'gallery', title: 'Profile photo gallery', type: 'array', of: [{ type: 'partnerGalleryImage' }] }),
