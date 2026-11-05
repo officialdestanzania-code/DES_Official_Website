@@ -1,10 +1,7 @@
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
 import { partnerSchemaTypes } from './schemaTypes'
-
-export const sanityProjectId = import.meta.env.VITE_SANITY_PROJECT_ID?.trim() ?? ''
-export const sanityDataset = import.meta.env.VITE_SANITY_DATASET?.trim() || 'production'
-export const isSanityConfigured = /^[a-z0-9]+$/.test(sanityProjectId)
+import { sanityProjectId, sanityDataset } from './sanityEnv'
 
 export const studioConfig = defineConfig({
   name: 'des-partners',
