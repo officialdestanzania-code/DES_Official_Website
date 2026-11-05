@@ -1,3 +1,18 @@
+export type PartnerGroup = {
+  slug: string
+  title: string
+  description: string
+}
+
+export type ContributionRecord = {
+  id: string
+  title: string
+  description: string
+  year: number
+  status: 'completed' | 'ongoing' | 'paused' | 'coordination'
+  quantity?: string
+}
+
 export type PartnerSource = {
   label: string
   url: string
@@ -12,27 +27,58 @@ export type PartnerGalleryItem = {
 export type ButimbaPartner = {
   slug: string
   name: string
+  groupSlug: string
   category: string
   location: string
   summary: string
   role: string
-  contributions: string[]
+  affiliation?: {
+    name: string
+    href?: string
+    description: string
+  }
+  contributions: ContributionRecord[]
   statusNote?: string
   sources: PartnerSource[]
   gallery: PartnerGalleryItem[]
 }
 
+export const partnerGroups: PartnerGroup[] = [
+  {
+    slug: 'international-technology-partners',
+    title: 'International Technology Partners',
+    description: 'Organisations and coordinators connecting Butimba with educational technology and international project support.',
+  },
+  {
+    slug: 'friends-of-butimba',
+    title: 'Friends of Butimba Primary School',
+    description: 'Friends and families who support the school and its learning environment.',
+  },
+  {
+    slug: 'butimba-alumni-network',
+    title: 'Butimba Alumni Network',
+    description: 'Former pupils giving back to their school through practical contributions to learning, staff and pupil wellbeing.',
+  },
+]
+
 export const butimbaPartners: ButimbaPartner[] = [
   {
     slug: 'labdoo',
     name: 'Labdoo',
+    groupSlug: 'international-technology-partners',
     category: 'International education technology partner',
     location: 'International network',
     summary: 'Supporting digital inclusion by preparing and delivering reusable computers for education.',
     role: 'Labdoo is the technology partner credited with the fourteen laptops delivered to Butimba Primary School in July 2025.',
     contributions: [
-      'Fourteen Labdoo laptops reached Butimba Primary School in July 2025.',
-      'The devices form part of the school’s effort to establish practical computer-based learning.',
+      {
+        id: 'labdoo-laptops-2025',
+        title: 'Fourteen educational laptops',
+        description: 'Fourteen Labdoo laptops were handed over to Butimba Primary School to support computer-based learning.',
+        year: 2025,
+        status: 'completed',
+        quantity: '14 laptops',
+      },
     ],
     sources: [
       { label: 'Butimba project page on Labdoo', url: 'https://platform.labdoo.org/edoovillage?e=227878' },
@@ -43,14 +89,20 @@ export const butimbaPartners: ButimbaPartner[] = [
   {
     slug: 'mwanza-ev',
     name: 'Mwanza e.V.',
+    groupSlug: 'international-technology-partners',
     category: 'Direct project partner',
     location: 'Würzburg, Germany',
     summary: 'A direct partner supporting the Butimba initiative and connecting the school with international project support.',
-    role: 'Mwanza e.V. works with the Butimba project through coordination and practical support. The school records one steel storage cabinet received through Mwanza e.V.',
+    role: 'Mwanza e.V. is a direct project partner. The Butimba project records one steel storage cabinet received through Mwanza e.V.',
     contributions: [
-      'Direct collaboration with the Butimba Digital Learning & Computer Room initiative.',
-      'One steel storage cabinet was received through Mwanza e.V.',
-      'Coordination support connecting the school with project partners.',
+      {
+        id: 'mwanza-storage-cabinet',
+        title: 'Steel storage cabinet',
+        description: 'One steel cabinet was received through Mwanza e.V. to help secure and organise equipment in the computer room.',
+        year: 2026,
+        status: 'completed',
+        quantity: '1 cabinet',
+      },
     ],
     sources: [
       { label: 'Butimba project page on Labdoo', url: 'https://platform.labdoo.org/edoovillage?e=227878' },
@@ -60,13 +112,24 @@ export const butimbaPartners: ButimbaPartner[] = [
   {
     slug: 'thomas-barcatta',
     name: 'Thomas Barcatta',
-    category: 'Project coordinator and liaison',
+    groupSlug: 'international-technology-partners',
+    category: 'Project liaison under Mwanza e.V.',
     location: 'Würzburg, Germany',
-    summary: 'A key liaison connecting the Butimba project with Labdoo Hub Würzburg and Mwanza e.V.',
-    role: 'Thomas Barcatta supervises and facilitates the Labdoo-supported work connected with Butimba. This page recognises his coordination role; it does not attribute organisational donations to him personally.',
+    summary: 'A key liaison supporting the Butimba project through Mwanza e.V. and Labdoo Hub Würzburg.',
+    role: 'Thomas Barcatta works under Mwanza e.V. and facilitates coordination connected with Labdoo Hub Würzburg. His role is recorded as project coordination and liaison, not as a separate donating organisation.',
+    affiliation: {
+      name: 'Mwanza e.V.',
+      href: '/partners/mwanza-ev',
+      description: 'Project coordination and liaison through this organisation.',
+    },
     contributions: [
-      'Project supervision and liaison through Labdoo Hub Würzburg.',
-      'Coordination that helped connect Butimba Primary School with technology and project supporters.',
+      {
+        id: 'thomas-project-coordination',
+        title: 'Project coordination and liaison',
+        description: 'Coordinates communication and practical collaboration connecting Butimba Primary School, Mwanza e.V. and Labdoo Hub Würzburg.',
+        year: 2025,
+        status: 'coordination',
+      },
     ],
     sources: [
       { label: 'Labdoo Hub Würzburg', url: 'https://platform.labdoo.org/de/hub?h=156799' },
@@ -77,14 +140,20 @@ export const butimbaPartners: ButimbaPartner[] = [
   {
     slug: 'gundolf-family',
     name: 'The Gundolf Family',
+    groupSlug: 'friends-of-butimba',
     category: 'Friends of Butimba Primary School',
     location: 'Munich, Germany',
     summary: 'A family supporter whose contribution helped provide locally made furniture for the computer room.',
     role: 'The Gundolf Family supported the computer-room furniture initiative. Labdoo publicly acknowledged the family’s sponsorship of locally made tables and chairs.',
     contributions: [
-      'Supported the production of furniture for the Butimba computer room.',
-      'Twelve tables and twelve benches were completed for the room in January 2026.',
-      'Helped combine digital inclusion with support for local craftsmanship.',
+      {
+        id: 'gundolf-computer-room-furniture',
+        title: 'Computer-room furniture',
+        description: 'Supported locally made furniture for the Butimba computer room. Twelve tables and twelve benches were completed in January 2026.',
+        year: 2026,
+        status: 'completed',
+        quantity: '12 tables and 12 benches',
+      },
     ],
     sources: [
       { label: 'Labdoo announcement about Butimba and the Gundolf sponsorship', url: 'https://www.linkedin.com/posts/labdoo.org_labdoo-mwanza-tanzania-activity-7359819832474628097-I4Kg' },
@@ -95,13 +164,28 @@ export const butimbaPartners: ButimbaPartner[] = [
   {
     slug: 'herman-tanguye',
     name: 'Herman Tanguye',
+    groupSlug: 'butimba-alumni-network',
     category: 'Butimba alumnus and supporter',
-    location: 'Butimba Alumni',
-    summary: 'An alumnus recognised for supporting the school’s day-to-day administrative and learning operations.',
-    role: 'Herman Tanguye supported Butimba Primary School by purchasing a photocopy machine for the school.',
+    location: 'Butimba Alumni Network',
+    summary: 'An alumnus recognised for supporting school administration and digital connectivity.',
+    role: 'Herman Tanguye is a supporter through the Butimba Alumni Network. His contributions include a photocopy machine and school Wi-Fi support in 2026.',
     contributions: [
-      'Purchased a photocopy machine for Butimba Primary School.',
-      'The machine supports the school’s photocopying and document-preparation needs.',
+      {
+        id: 'herman-photocopy-machine',
+        title: 'Photocopy machine',
+        description: 'Purchased a photocopy machine for Butimba Primary School to support document preparation and school administration.',
+        year: 2026,
+        status: 'completed',
+        quantity: '1 photocopy machine',
+      },
+      {
+        id: 'herman-school-wifi',
+        title: 'School Wi-Fi',
+        description: 'Purchased Wi-Fi equipment/service for the school to strengthen internet connectivity.',
+        year: 2026,
+        status: 'completed',
+        quantity: 'School Wi-Fi',
+      },
     ],
     sources: [],
     gallery: [],
@@ -109,13 +193,20 @@ export const butimbaPartners: ButimbaPartner[] = [
   {
     slug: 'samwel-tanguye',
     name: 'Samwel Tanguye',
+    groupSlug: 'butimba-alumni-network',
     category: 'Butimba alumnus and supporter',
-    location: 'Butimba Alumni',
+    location: 'Butimba Alumni Network',
     summary: 'An alumnus recognised for contributing furniture to improve the staff-room environment.',
-    role: 'Samwel Tanguye supported the school by purchasing fifteen chairs for the staff room.',
+    role: 'Samwel Tanguye is a supporter through the Butimba Alumni Network. He purchased fifteen chairs for the staff room.',
     contributions: [
-      'Purchased fifteen chairs for the Butimba Primary School staff room.',
-      'The chairs contribute to a more functional staff working environment.',
+      {
+        id: 'samwel-staffroom-chairs',
+        title: 'Staff-room chairs',
+        description: 'Purchased chairs to improve the staff-room working environment.',
+        year: 2026,
+        status: 'completed',
+        quantity: '15 chairs',
+      },
     ],
     sources: [],
     gallery: [],
@@ -123,15 +214,21 @@ export const butimbaPartners: ButimbaPartner[] = [
   {
     slug: 'dr-ancyfrida-prosper',
     name: 'Dr. Ancyfrida Prosper',
-    category: 'Girls’ education and wellbeing supporter',
-    location: 'Butimba Primary School community',
+    groupSlug: 'butimba-alumni-network',
+    category: 'Butimba alumnus/alumna supporter',
+    location: 'Butimba Alumni Network',
     summary: 'A leading supporter of initiatives intended to improve dignity, privacy and wellbeing for girls at school.',
-    role: 'Dr. Ancyfrida Prosper championed the initiative to establish a safe menstrual hygiene room for girls at Butimba Primary School.',
+    role: 'Dr. Ancyfrida Prosper is a supporter through the Butimba Alumni Network and championed the initiative to establish a safe menstrual hygiene room for girls at Butimba Primary School.',
     contributions: [
-      'Spearheaded the initiative to establish a safe menstrual hygiene room for girls.',
-      'Construction was initiated, but the project is currently incomplete and work has paused.',
+      {
+        id: 'ancyfrida-safe-menstrual-room',
+        title: 'Safe menstrual hygiene room for girls',
+        description: 'Spearheaded the initiative to establish a dedicated, safe menstrual hygiene room for girls at Butimba Primary School.',
+        year: 2026,
+        status: 'paused',
+      },
     ],
-    statusNote: 'The room is not yet complete or operational. This page records the initiative’s status transparently and does not imply that construction has been finished.',
+    statusNote: 'Construction has started but remains incomplete and work is currently paused. The room is not yet operational.',
     sources: [],
     gallery: [],
   },
