@@ -509,3 +509,8 @@
   background: #ede9fe;
   color: #5b21b6;
 }
+
+.partner-contribution-meta .partner-contribution-quantity strong {
+  color: #102a43;
+  font-weight: 850;
+}
