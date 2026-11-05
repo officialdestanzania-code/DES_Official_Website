@@ -18,6 +18,9 @@ import './ContentHubPage.css'
 
 type Section = 'solutions' | 'projects' | 'resources'
 
+const gmailComposeLink = (subject: string) =>
+  `https://mail.google.com/mail/?view=cm&fs=1&to=officialdestanzania@gmail.com&su=${encodeURIComponent(subject)}`
+
 const solutionIcons = {
   learning: BookOpen,
   ai: BrainCircuit,
@@ -117,7 +120,7 @@ function ListingPage({ section }: { section: 'solutions' | 'projects' }) {
             <h2>Let’s work together</h2>
             <p>Contact DES to discuss a school, learning or digital innovation initiative.</p>
           </div>
-          <a href="mailto:officialdestanzania@gmail.com?subject=DES%20Enquiry" className="hub-button">
+          <a href={gmailComposeLink("DES Enquiry")} target="_blank" rel="noopener noreferrer" className="hub-button">
             Contact DES <ArrowRight size={17} />
           </a>
         </div>
@@ -153,7 +156,7 @@ function SolutionDetail({ item }: { item: SolutionItem }) {
             <h2>Discuss this solution with DES</h2>
             <p>Tell us about your school, organisation or learning needs.</p>
           </div>
-          <a href={`mailto:officialdestanzania@gmail.com?subject=${encodeURIComponent(item.title)}`} className="hub-button">
+          <a href={gmailComposeLink(item.title)} target="_blank" rel="noopener noreferrer" className="hub-button">
             Make an enquiry <ArrowRight size={17} />
           </a>
         </div>
@@ -176,7 +179,7 @@ function ProjectDetail({ item }: { item: ProjectItem }) {
           <p>{item.overview}</p>
         </div>
       </section>
-      <main className="hub-container hub-main">
+      <main className="hub-container hub-main hub-detail-grid">
         <section className="hub-detail-panel">
           <h2>Project Highlights</h2>
           <ul>{item.highlights.map((entry) => <li key={entry}>{entry}</li>)}</ul>
@@ -192,12 +195,18 @@ function ProjectDetail({ item }: { item: ProjectItem }) {
             </a>
           )}
         </section>
-        <div className="hub-contact-panel">
+        {item.partners && item.partners.length > 0 && (
+          <section className="hub-detail-panel">
+            <h2>Project Partners</h2>
+            <ul>{item.partners.map((partner) => <li key={partner}>{partner}</li>)}</ul>
+          </section>
+        )}
+        <div className="hub-contact-panel hub-detail-contact">
           <div>
             <h2>Interested in collaborating?</h2>
             <p>Contact DES to discuss partnership and project opportunities.</p>
           </div>
-          <a href="mailto:officialdestanzania@gmail.com?subject=DES%20Project%20Enquiry" className="hub-button">
+          <a href={gmailComposeLink("DES Project Enquiry")} target="_blank" rel="noopener noreferrer" className="hub-button">
             Contact DES <ArrowRight size={17} />
           </a>
         </div>
