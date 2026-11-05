@@ -15,6 +15,7 @@ export type ProjectItem = {
   summary: string
   overview: string
   highlights: string[]
+  partners?: string[]
   link?: string
   linkLabel?: string
 }
@@ -129,8 +130,14 @@ export const projects: ProjectItem[] = [
     overview: 'The initiative supports the development of a practical computer learning environment where pupils can gain experience with digital technology and structured computer lessons.',
     highlights: [
       'Fourteen Labdoo laptops were handed over in July 2025',
+      'Five additional laptops were received in February 2026, bringing the total received to nineteen',
       'Twelve tables and twelve benches were completed for the computer room in January 2026',
+      'One steel storage cabinet was received through Mwanza e.V.',
       'Further work includes strengthening the room, electricity, connectivity and learning operations',
+    ],
+    partners: [
+      'Mwanza e.V. (Würzburg, Germany) — a direct project partner supporting the Butimba initiative.',
+      'The Gundolf Family (Munich, Germany) — Friends of Butimba Primary School and a supporting project partner.',
     ],
   },
   {
