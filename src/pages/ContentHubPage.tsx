@@ -16,6 +16,7 @@ import {
   Check,
 } from 'lucide-react'
 import { projects, resourceGroups, solutions } from '../data/siteContent'
+import { butimbaPartners } from '../data/butimbaPartners'
 import type { ProjectItem, SolutionItem } from '../data/siteContent'
 import './ContentHubPage.css'
 
@@ -231,10 +232,21 @@ function ProjectDetail({ item }: { item: ProjectItem }) {
             </a>
           )}
         </section>
-        {item.partners && item.partners.length > 0 && (
-          <section className="hub-detail-panel">
-            <h2>Project Partners</h2>
-            <ul>{item.partners.map((partner) => <li key={partner}>{partner}</li>)}</ul>
+        {item.slug === 'butimba-digital-learning-computer-room' && (
+          <section className="hub-detail-panel hub-partners-preview">
+            <h2>Partners &amp; Supporters</h2>
+            <p>Explore an individual profile for each organisation, coordinator, alumnus and friend supporting the Butimba initiative.</p>
+            <div className="hub-partners-mini-grid">
+              {butimbaPartners.map((partner) => (
+                <Link key={partner.slug} to={'/partners/' + partner.slug} className="hub-partner-mini-link">
+                  <span>{partner.name}</span>
+                  <ArrowRight size={15} />
+                </Link>
+              ))}
+            </div>
+            <Link to="/partners" className="hub-card-link hub-all-partners-link">
+              View all partners and supporters <ArrowRight size={16} />
+            </Link>
           </section>
         )}
         <div className="hub-contact-panel hub-detail-contact">
