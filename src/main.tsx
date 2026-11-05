@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { StrictMode, lazy, Suspense } from 'react'
 import { createRoot, hydrateRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
@@ -6,6 +6,8 @@ import App from './App.tsx'
 import StandardSevenResults2026 from './pages/StandardSevenResults2026.tsx'
 import ContentHubPage from './pages/ContentHubPage.tsx'
 import ButimbaPartnersPage from './pages/ButimbaPartnersPage.tsx'
+
+const PartnerAdminPage = lazy(() => import('./pages/PartnerAdminPage.tsx'))
 
 const root = document.getElementById('root')!
 
@@ -25,6 +27,7 @@ const application = (
         <Route path="/resources" element={<ContentHubPage section="resources" />} />
         <Route path="/partners" element={<ButimbaPartnersPage />} />
         <Route path="/partners/:slug" element={<ButimbaPartnersPage />} />
+        <Route path="/admin/*" element={<Suspense fallback={<div>Loading admin workspace…</div>}><PartnerAdminPage /></Suspense>} />
       </Routes>
     </BrowserRouter>
   </StrictMode>
