@@ -10,7 +10,6 @@ import {
   Laptop,
   Palette,
   Users,
-  Wrench,
   ExternalLink,
 } from 'lucide-react'
 import { projects, resourceGroups, solutions } from '../data/siteContent'
