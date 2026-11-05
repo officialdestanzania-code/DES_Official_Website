@@ -96,4 +96,4 @@ const contribution = defineType({
   preview: { select: { title: 'title', subtitle: 'year', media: 'gallery.0.image' } },
 })
 
-export const partnerSchemaTypes = [partnerGroup, partner, contribution]
+export const partnerSchemaTypes = [partnerGroup, partner, contribution, sourceObject, galleryImage]
