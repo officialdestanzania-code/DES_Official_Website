@@ -275,7 +275,11 @@ function App() {
 
           <div className="footer-contact">
             <h3>Get in Touch</h3>
-            <a href="mailto:officialdestanzania@gmail.com">
+            <a
+              href="https://mail.google.com/mail/?view=cm&fs=1&to=officialdestanzania@gmail.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               officialdestanzania@gmail.com
             </a>
             <a href="https://learn.des.co.tz" target="_blank" rel="noopener noreferrer">
