@@ -25,7 +25,7 @@ export default function SiteFooter() {
           <Link to="/solutions">Our Solutions</Link>
           <Link to="/projects">Our Projects</Link>
           <Link to="/news">News &amp; Updates</Link>
-          <Link to="/partners">Partners &amp; Supporters</Link>
+          <Link to="/partners">Butimba Project Partners</Link>
           <Link to="/contact">Contact DES</Link>
         </div>
 
