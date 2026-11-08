@@ -289,10 +289,23 @@ export default function ContentHubPage({ section }: { section: Section }) {
 
   useEffect(() => {
     const pageTitle = solution?.title ?? project?.title
-    document.title = pageTitle
+    const title = pageTitle
       ? `${pageTitle} | DES Tanzania`
       : `${titles[section].title} | DES Tanzania`
-  }, [section, solution, project])
+    const description = solution?.summary ?? project?.summary ?? titles[section].description
+    const canonicalUrl = 'https://des.co.tz' + pathname
+    document.title = title
+    const descriptionMeta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
+    const ogTitleMeta = document.querySelector<HTMLMetaElement>('meta[property="og:title"]')
+    const ogDescriptionMeta = document.querySelector<HTMLMetaElement>('meta[property="og:description"]')
+    const ogUrlMeta = document.querySelector<HTMLMetaElement>('meta[property="og:url"]')
+    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+    if (descriptionMeta) descriptionMeta.content = description
+    if (ogTitleMeta) ogTitleMeta.content = title
+    if (ogDescriptionMeta) ogDescriptionMeta.content = description
+    if (ogUrlMeta) ogUrlMeta.content = canonicalUrl
+    if (canonical) canonical.href = canonicalUrl
+  }, [section, solution, project, pathname])
 
   let content
   if (section === 'resources') {
