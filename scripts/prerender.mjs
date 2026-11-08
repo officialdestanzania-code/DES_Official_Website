@@ -7,6 +7,12 @@ import path from 'node:path'
 
 const routes = [
   {
+    path: '/',
+    module: '/src/App.tsx',
+    title: 'Digital Education Solutions (DES) | Education, AI & Digital Innovation',
+    description: 'Digital Education Solutions (DES) is a Tanzania-based initiative advancing education through AI-powered learning, digital skills, software development and creative technology.',
+  },
+  {
     path: '/matokeo-darasa-la-saba-2026',
     module: '/src/pages/StandardSevenResults2026.tsx',
     title: 'Matokeo Darasa la Saba 2026 | DES Tanzania',
@@ -217,6 +223,13 @@ async function main() {
     }))
 
     const routeMap = new Map(routes.map((route) => [route.path, route]))
+    routeMap.set('/', {
+      path: '/',
+      module: '/src/App.tsx',
+      props: { initialNewsArticles: cmsNewsArticles },
+      title: 'Digital Education Solutions (DES) | Education, AI & Digital Innovation',
+      description: 'Digital Education Solutions (DES) is a Tanzania-based initiative advancing education through AI-powered learning, digital skills, software development and creative technology.',
+    })
     routeMap.set('/news', {
       path: '/news',
       module: '/src/pages/NewsPage.tsx',
@@ -272,7 +285,7 @@ async function main() {
             ';</script>'
           : ''
       const newsDataScript =
-        route.module === '/src/pages/NewsPage.tsx'
+        (route.module === '/src/pages/NewsPage.tsx' || route.module === '/src/App.tsx')
           ? '<script>window.__DES_NEWS_ARTICLES__=' +
             JSON.stringify(cmsNewsArticles).replaceAll('<', '\\u003c') +
             ';</script>'
