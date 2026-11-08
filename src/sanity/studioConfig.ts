@@ -10,5 +10,5 @@ export const studioConfig = defineConfig({
   dataset: sanityStudioDataset,
   basePath: '/admin',
   plugins: [structureTool()],
-  schema: { types: partnerSchemaTypes },
+  schema: { types: siteSchemaTypes },
 })
