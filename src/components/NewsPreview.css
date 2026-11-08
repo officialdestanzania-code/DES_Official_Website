@@ -1,0 +1,26 @@
+.des-home-news{background:#f8fafc}
+.des-home-news-heading{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:28px}
+.des-home-news-heading h2{margin:10px 0;color:#102a43;font-size:clamp(28px,3.5vw,36px)}
+.des-home-news-heading h2 span{color:#2563eb}
+.des-home-news-heading p{margin:0;color:#64748b;font-size:14px;line-height:1.7}
+.des-home-news-all,.des-home-news-read{display:inline-flex;align-items:center;gap:8px;color:#2563eb;font-size:13px;font-weight:800;text-decoration:none;white-space:nowrap}
+.des-home-news-all:hover,.des-home-news-read:hover{color:#0891b2}
+.des-home-news-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.des-home-news-card{overflow:hidden;border:1px solid #e2e8f0;border-radius:13px;background:#fff;display:flex;flex-direction:column}
+.des-home-news-image{display:block;height:190px;overflow:hidden;background:#dbeafe}
+.des-home-news-image img{width:100%;height:100%;object-fit:cover;transition:transform .3s ease}
+.des-home-news-card:hover .des-home-news-image img{transform:scale(1.03)}
+.des-home-news-image span{height:100%;display:flex;align-items:center;justify-content:center;color:#1d4ed8;font-size:13px;font-weight:800}
+.des-home-news-card-content{display:flex;flex:1;flex-direction:column;align-items:flex-start;padding:20px}
+.des-home-news-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;color:#64748b;font-size:10px}
+.des-home-news-meta>span:first-child{padding:5px 8px;border-radius:20px;background:#e0f2fe;color:#075985;font-weight:800}
+.des-home-news-meta>span:last-child{display:inline-flex;align-items:center;gap:5px}
+.des-home-news-card h3{margin:14px 0 9px;font-size:17px;line-height:1.4}
+.des-home-news-card h3 a{color:#102a43;text-decoration:none}
+.des-home-news-card h3 a:hover{color:#2563eb}
+.des-home-news-card p{margin:0 0 17px;color:#64748b;font-size:12px;line-height:1.75}
+.des-home-news-empty{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:24px;border:1px dashed #cbd5e1;border-radius:12px;background:#fff}
+.des-home-news-empty p{margin:0;color:#64748b;font-size:13px}
+.des-home-news-empty a{display:inline-flex;align-items:center;gap:7px;color:#2563eb;font-size:12px;font-weight:800;text-decoration:none}
+@media(max-width:800px){.des-home-news-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.des-home-news-heading{align-items:flex-start;flex-direction:column}.des-home-news-grid{grid-template-columns:1fr}.des-home-news-image{height:210px}.des-home-news-empty{align-items:flex-start;flex-direction:column}}
