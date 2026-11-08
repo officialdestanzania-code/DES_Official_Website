@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import type { ReactNode } from 'react'
 import { ArrowLeft, ArrowRight, CalendarDays, ExternalLink, Search } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
 import SiteHeader from '../components/SiteHeader'
@@ -32,7 +33,7 @@ function updateMeta(selector: string, value: string) {
 
 function renderText(block: NewsBlock) {
   return (block.children ?? []).map((span, index) => {
-    let content: React.ReactNode = span.text ?? ''
+    let content: ReactNode = span.text ?? ''
     for (const mark of span.marks ?? []) {
       if (mark === 'strong') content = <strong>{content}</strong>
       else if (mark === 'em') content = <em>{content}</em>
