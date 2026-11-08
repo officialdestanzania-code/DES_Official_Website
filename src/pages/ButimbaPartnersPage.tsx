@@ -6,6 +6,8 @@ import type { ButimbaPartner, PartnerGroup } from '../data/butimbaPartners'
 import { fetchPartnerDirectoryFromCms } from '../data/sanityPartners'
 import type { PartnerDirectoryData } from '../data/sanityPartners'
 import './ButimbaPartnersPage.css'
+import SiteHeader from '../components/SiteHeader'
+import SiteFooter from '../components/SiteFooter'
 
 declare global {
   interface Window {
@@ -15,21 +17,6 @@ declare global {
 
 const CURRENT_YEAR = new Date().getUTCFullYear()
 const projectUrl = '/projects/butimba-digital-learning-computer-room'
-
-function PageHeader() {
-  return (
-    <header className="partner-header">
-      <div className="partner-container partner-nav">
-        <Link to="/" className="partner-brand" aria-label="DES Home">
-          <img src="/images/des-ai-logo.png" alt="Digital Education Solutions" />
-        </Link>
-        <Link to={projectUrl} className="partner-back-link">
-          <ArrowLeft size={17} /> Butimba Project
-        </Link>
-      </div>
-    </header>
-  )
-}
 
 function PartnerCard({ partner }: { partner: ButimbaPartner }) {
   return (
@@ -231,28 +218,25 @@ export default function ButimbaPartnersPage({ initialDirectory }: { initialDirec
 
   return (
     <div className="partner-page">
-      <PageHeader />
-      {partner ? (
-        <PartnerProfile partner={partner} />
-      ) : slug && !cmsLoaded ? (
-        <main className="partner-container partner-main partner-not-found">
-          <h1>Loading partner profile…</h1>
-        </main>
-      ) : slug ? (
-        <main className="partner-container partner-main partner-not-found">
-          <h1>Partner profile not found</h1>
-          <p>The requested profile could not be found.</p>
-          <Link to="/partners" className="partner-primary-button">View all partners</Link>
-        </main>
-      ) : (
-        <PartnerDirectory partners={directory.partners} groups={directory.groups} />
-      )}
-      <footer className="partner-footer">
-        <div className="partner-container">
-          <span>© {CURRENT_YEAR} Digital Education Solutions (DES).</span>
-          <Link to="/">DES Official Website</Link>
-        </div>
-      </footer>
+      <SiteHeader />
+      <div id="main-content">
+        {partner ? (
+          <PartnerProfile partner={partner} />
+        ) : slug && !cmsLoaded ? (
+          <main className="partner-container partner-main partner-not-found">
+            <h1>Loading partner profile…</h1>
+          </main>
+        ) : slug ? (
+          <main className="partner-container partner-main partner-not-found">
+            <h1>Partner profile not found</h1>
+            <p>The requested profile could not be found.</p>
+            <Link to="/partners" className="partner-primary-button">View all partners</Link>
+          </main>
+        ) : (
+          <PartnerDirectory partners={directory.partners} groups={directory.groups} />
+        )}
+      </div>
+      <SiteFooter />
     </div>
   )
 }
