@@ -116,15 +116,15 @@ const newsArticle = defineType({
     defineField({ name: 'featured', title: 'Feature this article on the News page', type: 'boolean', initialValue: false }),
     defineField({
       name: 'coverImage',
-      title: 'Cover image',
+      title: 'Cover image (optional)',
       type: 'object',
+      description: 'Optional. Articles without a cover image use a neutral DES News placeholder on the public website.',
       fields: [
         defineField({ name: 'image', title: 'Image', type: 'image', options: { hotspot: true }, validation: (Rule) => Rule.required() }),
         defineField({ name: 'alt', title: 'Alternative text', type: 'string', description: 'Describe what is visible in the image. Do not leave this blank.', validation: (Rule) => Rule.required() }),
         defineField({ name: 'caption', title: 'Caption / photo credit', type: 'string' }),
         defineField({ name: 'permissionConfirmed', title: 'Permission for public display confirmed', type: 'boolean', initialValue: false, validation: (Rule) => Rule.custom((value) => value === true ? true : 'Confirm permission for public display before publishing.') }),
       ],
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'body',
