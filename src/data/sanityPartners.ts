@@ -25,6 +25,7 @@ type SanityContribution = {
   title: string
   description: string
   year: number
+  contributionType?: ContributionRecord['contributionType']
   status: ContributionRecord['status']
   quantity?: string
   gallery?: SanityImage[]
@@ -39,7 +40,7 @@ type SanityPartner = {
   summary: string
   role: string
   statusNote?: string
-  group?: { slug: string; title: string; description: string }
+  group?: { slug: string; title: string; description: string; displayOrder?: number }
   affiliation?: { name: string; slug: string }
   sources?: PartnerSource[]
   gallery?: SanityImage[]
@@ -58,7 +59,7 @@ const partnerQuery = `*[_type == "partner" && defined(slug.current)] | order(nam
   location,
   summary,
   role,
-  "group": group->{ "slug": slug.current, title, description },
+  "group": group->{ "slug": slug.current, title, description, displayOrder },
   "affiliation": affiliation->{ name, "slug": slug.current },
   sources[]{ label, url },
   gallery[permissionConfirmed == true]{
@@ -71,6 +72,7 @@ const partnerQuery = `*[_type == "partner" && defined(slug.current)] | order(nam
     title,
     description,
     year,
+    contributionType,
     status,
     quantity,
     gallery[permissionConfirmed == true]{
@@ -108,6 +110,7 @@ export async function fetchPartnerDirectoryFromCms(): Promise<PartnerDirectoryDa
       title: item.title,
       description: item.description,
       year: item.year,
+      ...(item.contributionType ? { contributionType: item.contributionType } : {}),
       status: item.status ?? 'completed',
       ...(item.quantity ? { quantity: item.quantity } : {}),
     }))
@@ -143,16 +146,21 @@ export async function fetchPartnerDirectoryFromCms(): Promise<PartnerDirectoryDa
     }
   })
 
-  const groupsBySlug = new Map<string, PartnerGroup>()
+  const groupsBySlug = new Map<string, PartnerGroup & { displayOrder: number }>()
   for (const record of records) {
     if (record.group?.slug) {
       groupsBySlug.set(record.group.slug, {
         slug: record.group.slug,
         title: record.group.title,
         description: record.group.description,
+        displayOrder: record.group.displayOrder ?? 999,
       })
     }
   }
 
-  return { partners, groups: [...groupsBySlug.values()] }
+  const groups = [...groupsBySlug.values()]
+    .sort((a, b) => a.displayOrder - b.displayOrder)
+    .map(({ displayOrder: _displayOrder, ...group }) => group)
+
+  return { partners, groups }
 }
