@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import './ResultsPage.css'
+import SiteHeader from '../components/SiteHeader'
+import SiteFooter from '../components/SiteFooter'
 import {
-  ArrowLeft,
   ArrowUpRight,
   BookOpen,
   ExternalLink,
@@ -9,8 +10,6 @@ import {
   MapPin,
   Search,
 } from 'lucide-react'
-import { Link } from 'react-router-dom'
-const CURRENT_YEAR = new Date().getUTCFullYear()
 const NECTA_RESULTS_BASE_URL =
   'https://matokeo.necta.go.tz/results/2026/psle/results'
 
@@ -156,22 +155,8 @@ function StandardSevenResults2026() {
 }, [])
 
   return (
-    <main className="results-page">
-      <header className="results-header">
-        <div className="results-container results-nav">
-          <Link to="/" className="results-brand">
-            <img
-              src="/images/des-ai-logo.png"
-              alt="Digital Education Solutions"
-            />
-          </Link>
-
-          <Link to="/" className="results-home-link">
-            <ArrowLeft size={17} />
-            Back to DES Website
-          </Link>
-        </div>
-      </header>
+    <div className="results-page">
+      <SiteHeader />
 
       <section className="results-hero">
         <div className="results-container">
@@ -208,7 +193,7 @@ function StandardSevenResults2026() {
         </div>
       </section>
 
-      <section className="results-content section-padding">
+      <section id="main-content" className="results-content section-padding">
         <div className="results-container">
           <div className="results-section-heading">
             <span className="section-label">PSLE 2026</span>
@@ -321,16 +306,8 @@ function StandardSevenResults2026() {
         </div>
       </section>
 
-      <footer className="results-footer">
-        <div className="results-container">
-          <p>
-            © {CURRENT_YEAR} Digital Education Solutions (DES).
-            All rights reserved.
-          </p>
-          <a href="https://des.co.tz/">DES Official Website</a>
-        </div>
-      </footer>
-    </main>
+      <SiteFooter />
+    </div>
   )
 }
 
