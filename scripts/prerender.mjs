@@ -145,6 +145,24 @@ const routes = [
     title: 'Learning Resources | DES Tanzania',
     description: 'Find pathways to teacher resources and student learning materials through the DES AI Learning Platform.',
   },
+  {
+    path: '/about',
+    module: '/src/pages/AboutPage.tsx',
+    title: 'About DES | Digital Education Solutions Tanzania',
+    description: 'Learn about Digital Education Solutions, our vision, mission, values and focus on education, digital skills and creative technology.',
+  },
+  {
+    path: '/contact',
+    module: '/src/pages/ContactPage.tsx',
+    title: 'Contact DES | Digital Education Solutions Tanzania',
+    description: 'Contact Digital Education Solutions about digital learning, school ICT, education technology and partnership opportunities.',
+  },
+  {
+    path: '/news',
+    module: '/src/pages/NewsPage.tsx',
+    title: 'News & Updates | Digital Education Solutions',
+    description: 'Read the latest news, project updates, announcements and education technology insights from Digital Education Solutions.',
+  },
 ]
 
 function updateMeta(html, matcher, value) {
@@ -178,6 +196,8 @@ async function main() {
   try {
     const partnerDataModule = await vite.ssrLoadModule('/src/data/sanityPartners.ts')
     const cmsPartnerDirectory = await partnerDataModule.fetchPartnerDirectoryFromCms()
+    const newsDataModule = await vite.ssrLoadModule('/src/data/sanityNews.ts')
+    const cmsNewsArticles = await newsDataModule.fetchNewsFromCms()
     const partnerProfileRoutes = (cmsPartnerDirectory?.partners ?? []).map((partner) => ({
       path: '/partners/' + partner.slug,
       module: '/src/pages/ButimbaPartnersPage.tsx',
@@ -186,8 +206,26 @@ async function main() {
       description: partner.summary,
     }))
 
+    const newsArticleRoutes = cmsNewsArticles.map((article) => ({
+      path: '/news/' + article.slug,
+      module: '/src/pages/NewsPage.tsx',
+      props: { initialArticles: cmsNewsArticles },
+      title: (article.seoTitle || article.title + ' | DES News'),
+      description: article.seoDescription || article.excerpt,
+      ogDescription: article.seoDescription || article.excerpt,
+      ogImage: article.coverImage?.url,
+    }))
+
     const routeMap = new Map(routes.map((route) => [route.path, route]))
+    routeMap.set('/news', {
+      path: '/news',
+      module: '/src/pages/NewsPage.tsx',
+      props: { initialArticles: cmsNewsArticles },
+      title: 'News & Updates | Digital Education Solutions',
+      description: 'Read the latest news, project updates, announcements and education technology insights from Digital Education Solutions.',
+    })
     for (const route of partnerProfileRoutes) routeMap.set(route.path, route)
+    for (const route of newsArticleRoutes) routeMap.set(route.path, route)
     const partnerDirectoryRoute = routeMap.get('/partners')
     if (partnerDirectoryRoute && cmsPartnerDirectory) {
       routeMap.set('/partners', {
@@ -245,6 +283,10 @@ async function main() {
       html = updateMeta(html, /property="og:url"/i, canonicalUrl)
       html = updateMeta(html, /name="twitter:title"/i, route.title)
       html = updateMeta(html, /name="twitter:description"/i, route.ogDescription ?? route.description)
+      if (route.ogImage) {
+        html = updateMeta(html, /property="og:image"/i, route.ogImage)
+        html = updateMeta(html, /name="twitter:image"/i, route.ogImage)
+      }
 
       if (!/<link\b[^>]*\brel="canonical"/i.test(html)) {
         throw new Error('Canonical link was not found in index.html.')
@@ -263,7 +305,7 @@ async function main() {
     const sitemapFile = path.join(distDirectory, 'sitemap.xml')
     try {
       let sitemap = await readFile(sitemapFile, 'utf8')
-      for (const route of routesToRender.filter((item) => item.path.startsWith('/partners/'))) {
+      for (const route of routesToRender.filter((item) => item.path.startsWith('/partners/') || item.path.startsWith('/news/'))) {
         const url = 'https://des.co.tz' + route.path
         if (!sitemap.includes('<loc>' + url + '</loc>')) {
           sitemap = sitemap.replace(
