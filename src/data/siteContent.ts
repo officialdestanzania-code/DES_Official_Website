@@ -119,8 +119,8 @@ export const projects: ProjectItem[] = [
       'Work on teacher-facing and learner-facing learning resources',
       'Ongoing development of platform features and educational content',
     ],
-    link: 'https://learn.des.co.tz',
-    linkLabel: 'Visit Learning Platform',
+    link: 'https://learn.des.co.tz/login',
+    linkLabel: 'Open Learning Portal',
   },
   {
     slug: 'butimba-digital-learning-computer-room',
