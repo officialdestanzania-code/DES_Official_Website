@@ -3,13 +3,13 @@ import { ArrowRight, CalendarDays } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { fetchNewsFromCms } from '../data/sanityNews'
 import type { NewsArticle } from '../data/sanityNews'
+import './NewsPreview.css'
 
 declare global {
   interface Window {
     __DES_NEWS_ARTICLES__?: NewsArticle[]
   }
 }
-import './NewsPreview.css'
 
 function formatDate(value: string) {
   const date = new Date(value)
