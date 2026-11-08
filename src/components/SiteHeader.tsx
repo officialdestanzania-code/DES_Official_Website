@@ -42,7 +42,7 @@ export default function SiteHeader() {
           <details className="des-nav-more">
             <summary>Explore <ChevronDown size={14} /></summary>
             <div className="des-nav-dropdown">
-              <Link to="/partners" onClick={closeMenu}>Partners &amp; Supporters</Link>
+              <Link to="/partners" onClick={closeMenu}>Butimba Project Partners</Link>
               <Link to="/resources" onClick={closeMenu}>Learning Resources</Link>
               <Link to="/matokeo-darasa-la-saba-2026" onClick={closeMenu}>NECTA Results Portal</Link>
               <a href="https://learn.des.co.tz/store" target="_blank" rel="noopener noreferrer" onClick={closeMenu}>DES Digital Store <ArrowRight size={14} /></a>
