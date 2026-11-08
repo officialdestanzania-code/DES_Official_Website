@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://des.co.tz/</loc></url>
+  <url><loc>https://des.co.tz/about</loc></url>
+  <url><loc>https://des.co.tz/contact</loc></url>
+  <url><loc>https://des.co.tz/news</loc></url>
   <url><loc>https://des.co.tz/solutions</loc></url>
   <url><loc>https://des.co.tz/solutions/digital-learning-platforms</loc></url>
   <url><loc>https://des.co.tz/solutions/ai-in-education</loc></url>
