@@ -14,7 +14,7 @@ export default function PartnerAdminPage() {
           <span className="partner-admin-eyebrow">DES CONTENT ADMIN</span>
           <h1>Admin CMS is not connected yet</h1>
           <p>
-            The partner management workspace is ready, but it must be connected
+            The DES Content Studio is ready, but it must be connected
             to Sanity through Vercel before administrators can sign in and publish content.
           </p>
           <a
