@@ -17,6 +17,16 @@ declare global {
 
 const projectUrl = '/projects/butimba-digital-learning-computer-room'
 
+const contributionTypeLabels: Record<NonNullable<ButimbaPartner['contributions'][number]['contributionType']>, string> = {
+  equipment: 'Equipment / materials',
+  infrastructure: 'Infrastructure / construction',
+  connectivity: 'Connectivity / internet',
+  education: 'Education / training',
+  coordination: 'Coordination / professional support',
+  wellbeing: 'Wellbeing / student support',
+  other: 'Other',
+}
+
 function PartnerCard({ partner }: { partner: ButimbaPartner }) {
   return (
     <article className="partner-card">
@@ -111,6 +121,11 @@ function PartnerProfile({ partner }: { partner: ButimbaPartner }) {
                   </div>
                   <p>{contribution.description}</p>
                   <div className="partner-contribution-meta">
+                    {contribution.contributionType && (
+                      <span>
+                        <strong>Type:</strong> {contributionTypeLabels[contribution.contributionType] ?? contribution.contributionType}
+                      </span>
+                    )}
                     {contribution.quantity && (
                       <span className="partner-contribution-quantity">
                         <strong>Quantity:</strong> {contribution.quantity}
