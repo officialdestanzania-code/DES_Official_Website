@@ -7,6 +7,8 @@ import StandardSevenResults2026 from './pages/StandardSevenResults2026.tsx'
 import ContentHubPage from './pages/ContentHubPage.tsx'
 import ButimbaPartnersPage from './pages/ButimbaPartnersPage.tsx'
 import PartnerAdminRoute from './pages/PartnerAdminRoute.tsx'
+import NewsPage from './pages/NewsPage.tsx'
+import { AboutPage, ContactPage, NotFoundPage } from './pages/StaticPages.tsx'
 
 const root = document.getElementById('root')!
 
@@ -15,6 +17,10 @@ const application = (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/news" element={<NewsPage />} />
+        <Route path="/news/:slug" element={<NewsPage />} />
         <Route
           path="/matokeo-darasa-la-saba-2026"
           element={<StandardSevenResults2026 />}
@@ -27,6 +33,7 @@ const application = (
         <Route path="/partners" element={<ButimbaPartnersPage />} />
         <Route path="/partners/:slug" element={<ButimbaPartnersPage />} />
         <Route path="/admin/*" element={<PartnerAdminRoute />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>

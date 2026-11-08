@@ -1,6 +1,7 @@
 import { defineConfig } from 'sanity'
 import { structureTool } from 'sanity/structure'
-import { partnerSchemaTypes } from './src/sanity/schemaTypes'
+import { deskStructure } from './src/sanity/deskStructure'
+import { siteSchemaTypes } from './src/sanity/schemaTypes'
 
 const projectId =
   process.env.SANITY_STUDIO_PROJECT_ID ||
@@ -13,11 +14,11 @@ const dataset =
   'production'
 
 export default defineConfig({
-  name: 'des-partners',
-  title: 'DES Partners & Contributions',
+  name: 'des-content',
+  title: 'DES Content Studio',
   projectId,
   dataset,
   basePath: '/admin',
-  plugins: [structureTool()],
-  schema: { types: partnerSchemaTypes },
+  plugins: [structureTool({ structure: deskStructure })],
+  schema: { types: siteSchemaTypes },
 })

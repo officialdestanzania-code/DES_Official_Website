@@ -5,20 +5,19 @@ import {
   Code2,
   Palette,
   Laptop,
-  Menu,
   GraduationCap,
   Globe,
   Lightbulb,
-  X,
+  ShoppingBag,
 } from 'lucide-react'
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './App.css'
+import SiteHeader from './components/SiteHeader'
+import SiteFooter from './components/SiteFooter'
+import NewsPreview from './components/NewsPreview'
 import { projects, solutions } from './data/siteContent'
-const CURRENT_YEAR = new Date().getUTCFullYear()
-function App() {
-  const [menuOpen, setMenuOpen] = useState(false)
-
+import type { NewsArticle } from './data/sanityNews'
+function App({ initialNewsArticles }: { initialNewsArticles?: NewsArticle[] }) {
   const solutionIcons = {
     learning: BookOpen,
     ai: BrainCircuit,
@@ -28,52 +27,11 @@ function App() {
     skills: GraduationCap,
   }
 
-  const closeMenu = () => setMenuOpen(false)
-
   return (
     <>
-      <header className="site-header">
-        <nav className="navbar container">
-          <a href="#home" className="brand" onClick={closeMenu}>
-            <img
-              src="/images/des-ai-logo.png"
-              alt="DES Digital Education Solutions"
-              className="brand-logo"
-            />
-          </a>
+      <SiteHeader />
 
-          <button
-            className="menu-toggle"
-            aria-label="Toggle navigation"
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen(!menuOpen)}
-          >
-            {menuOpen ? <X /> : <Menu />}
-          </button>
-
-          <div className={`nav-links ${menuOpen ? 'open' : ''}`}>
-            <a href="#home" onClick={closeMenu}>Home</a>
-            <a href="#about" onClick={closeMenu}>About</a>
-            <a href="#solutions" onClick={closeMenu}>Solutions</a>
-            <a href="#projects" onClick={closeMenu}>Projects</a>
-            <Link to="/resources" onClick={closeMenu}>Resources</Link>
-            <Link to="/matokeo-darasa-la-saba-2026" onClick={closeMenu}>
-              PSLE Results 2026
-            </Link>
-            <a href="#contact" onClick={closeMenu}>Contact</a>
-            <a
-              href="https://learn.des.co.tz"
-              className="nav-cta"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning Platform <ArrowRight size={16} />
-            </a>
-          </div>
-        </nav>
-      </header>
-
-      <main>
+      <main id="main-content">
         <section className="hero-section" id="home">
           <div className="container hero-grid">
             <div className="hero-content">
@@ -244,6 +202,27 @@ function App() {
           </div>
         </section>
 
+        <NewsPreview initialArticles={initialNewsArticles} />
+
+        <section className="des-store-callout section-padding" aria-labelledby="des-store-heading">
+          <div className="container des-store-callout-inner">
+            <div className="des-store-callout-icon"><ShoppingBag size={28} /></div>
+            <div className="des-store-callout-copy">
+              <span className="section-label">DES DIGITAL STORE</span>
+              <h2 id="des-store-heading">Explore the DES Digital Store.</h2>
+              <p>Visit the digital store through the DES learning portal to explore available products and services.</p>
+            </div>
+            <a
+              href="https://learn.des.co.tz/store"
+              className="btn btn-primary des-store-callout-button"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Visit Digital Store <ArrowRight size={18} />
+            </a>
+          </div>
+        </section>
+
         <section className="partnership-section section-padding">
           <div className="container partnership-content">
             <span className="section-label">LET'S COLLABORATE</span>
@@ -259,64 +238,7 @@ function App() {
         </section>
       </main>
 
-      <footer className="site-footer" id="contact">
-        <div className="container footer-main">
-          <div className="footer-brand">
-            <a href="#home" className="brand">
-              <img
-                src="/images/des-ai-logo.png"
-                alt="DES Digital Education Solutions"
-                className="brand-logo"
-              />
-            </a>
-            <p>Creativity Within Us.</p>
-            <p>Empowering Education Through Digital Innovation.</p>
-          </div>
-
-          <div className="footer-contact">
-            <h3>Get in Touch</h3>
-            <a
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=officialdestanzania@gmail.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              officialdestanzania@gmail.com
-            </a>
-            <a href="https://learn.des.co.tz" target="_blank" rel="noopener noreferrer">
-              DES AI Learning Platform
-            </a>
-            <a
-              href="https://www.youtube.com/@DESTanzania"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="youtube-link"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="21"
-                height="21"
-                viewBox="0 0 24 24"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8Z"
-                  fill="#FF0000"
-                />
-                <path d="m9.6 15.5 6.2-3.5-6.2-3.5v7Z" fill="#FFFFFF" />
-              </svg>
-              <span>YouTube – DES Tanzania</span>
-            </a>
-          </div>
-        </div>
-
-        <div className="footer-bottom">
-          <div className="container">
-            © {CURRENT_YEAR} Digital Education Solutions (DES).
-            All rights reserved.
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
     </>
   )
 }

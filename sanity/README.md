@@ -1,6 +1,6 @@
-# DES Partner CMS setup
+# DES Content Studio setup
 
-The Butimba Partners pages use Sanity as the content management system. The embedded Sanity Studio is available at `/admin` after the Vercel project is connected.
+The DES Official Website uses Sanity for its editorial News & Updates and the Butimba Partners & Contributions directory. The embedded Sanity Studio is available at `/admin` after the Vercel project is connected.
 
 ## 1. Connect Sanity through Vercel Marketplace
 
@@ -58,11 +58,24 @@ Import this seed file **once** into the empty `production` dataset. It records t
 6. Add authentic photographs only after permission for public display is confirmed. Each gallery image needs alt text, a caption and the permission checkbox selected.
 7. Preview the records and publish them. The public directory displays published content only. Each supporter receives a stable route at `/partners/<slug>`.
 
-## 5. Publishing and search indexing
+## 5. Publishing a News & Update article
 
-New profiles can load from the published CMS through the public partner directory. For new/updated pages to receive refreshed prerendered HTML and sitemap entries, create a Vercel Deploy Hook for the `main` branch and add it as a Sanity webhook for published partner, partner-group and contribution changes. Keep the Deploy Hook URL private. Do not expose it in `VITE_*` variables or commit it to Git.
+1. Open `/admin` on the approved Preview deployment and sign in with your individual Sanity account.
+2. Create a **News & Update** document.
+3. Add a clear headline, URL slug, category, short summary and publication date/time. Use the actual date of the announcement or activity; do not backdate or invent dates.
+4. Add a cover image, descriptive alternative text and photo credit where appropriate. Confirm permission for public display before publishing an image.
+5. Write the article body using headings, paragraphs, quotations, lists and links. For factual project updates, add supporting references under **Supporting references / source links**.
+6. Add relevant search tags and optional SEO title/description. Keep the headline factual and avoid exaggerated claims.
+7. Preview the article, check spelling, names, dates, quantities and links, then publish it. Drafts and future-dated articles are not displayed publicly.
+8. The public routes are `/news` and `/news/<slug>`. The homepage shows the latest three published articles.
 
-## Security and operations
+Do not publish pupil names, personal contact details, identity documents, confidential school records or photographs without the required public-display permission. Use only verified project information and retain source links for material factual claims.
+
+## 6. Publishing and search indexing
+
+New profiles can load from the published CMS through the public partner directory. For new/updated pages to receive refreshed prerendered HTML and sitemap entries, create a Vercel Deploy Hook for the production branch `release/butimba-partners-records-2026` and add it as a Sanity webhook for published newsArticle, partner, partnerGroup and contribution changes. Keep the Deploy Hook URL private. Do not expose it in `VITE_*` variables or commit it to Git.
+
+## 7. Security and operations
 
 - Sanity project IDs and dataset names are public configuration; they are not secrets.
 - Never put `SANITY_API_WRITE_TOKEN` or other write tokens into client-side environment values or browser code.

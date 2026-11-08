@@ -6,6 +6,8 @@ import type { ButimbaPartner, PartnerGroup } from '../data/butimbaPartners'
 import { fetchPartnerDirectoryFromCms } from '../data/sanityPartners'
 import type { PartnerDirectoryData } from '../data/sanityPartners'
 import './ButimbaPartnersPage.css'
+import SiteHeader from '../components/SiteHeader'
+import SiteFooter from '../components/SiteFooter'
 
 declare global {
   interface Window {
@@ -13,22 +15,16 @@ declare global {
   }
 }
 
-const CURRENT_YEAR = new Date().getUTCFullYear()
 const projectUrl = '/projects/butimba-digital-learning-computer-room'
 
-function PageHeader() {
-  return (
-    <header className="partner-header">
-      <div className="partner-container partner-nav">
-        <Link to="/" className="partner-brand" aria-label="DES Home">
-          <img src="/images/des-ai-logo.png" alt="Digital Education Solutions" />
-        </Link>
-        <Link to={projectUrl} className="partner-back-link">
-          <ArrowLeft size={17} /> Butimba Project
-        </Link>
-      </div>
-    </header>
-  )
+const contributionTypeLabels: Record<NonNullable<ButimbaPartner['contributions'][number]['contributionType']>, string> = {
+  equipment: 'Equipment / materials',
+  infrastructure: 'Infrastructure / construction',
+  connectivity: 'Connectivity / internet',
+  education: 'Education / training',
+  coordination: 'Coordination / professional support',
+  wellbeing: 'Wellbeing / student support',
+  other: 'Other',
 }
 
 function PartnerCard({ partner }: { partner: ButimbaPartner }) {
@@ -125,6 +121,11 @@ function PartnerProfile({ partner }: { partner: ButimbaPartner }) {
                   </div>
                   <p>{contribution.description}</p>
                   <div className="partner-contribution-meta">
+                    {contribution.contributionType && (
+                      <span>
+                        <strong>Type:</strong> {contributionTypeLabels[contribution.contributionType] ?? contribution.contributionType}
+                      </span>
+                    )}
                     {contribution.quantity && (
                       <span className="partner-contribution-quantity">
                         <strong>Quantity:</strong> {contribution.quantity}
@@ -224,35 +225,45 @@ export default function ButimbaPartnersPage({ initialDirectory }: { initialDirec
   const partner = slug ? directory.partners.find((item) => item.slug === slug) : undefined
 
   useEffect(() => {
-    document.title = partner
-      ? partner.name + ' | Butimba Partners | DES Tanzania'
-      : 'Butimba Partners & Supporters | DES Tanzania'
-  }, [partner])
+    const title = partner
+      ? partner.name + ' | Butimba Project Partners | DES Tanzania'
+      : 'Butimba Project Partners & Supporters | DES Tanzania'
+    const description = partner?.summary ?? 'Explore the organisations, coordinators, alumni and supporters connected with the Butimba digital learning project.'
+    const canonicalUrl = 'https://des.co.tz' + pathname
+    document.title = title
+    const descriptionMeta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
+    const ogTitleMeta = document.querySelector<HTMLMetaElement>('meta[property="og:title"]')
+    const ogDescriptionMeta = document.querySelector<HTMLMetaElement>('meta[property="og:description"]')
+    const ogUrlMeta = document.querySelector<HTMLMetaElement>('meta[property="og:url"]')
+    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+    if (descriptionMeta) descriptionMeta.content = description
+    if (ogTitleMeta) ogTitleMeta.content = title
+    if (ogDescriptionMeta) ogDescriptionMeta.content = description
+    if (ogUrlMeta) ogUrlMeta.content = canonicalUrl
+    if (canonical) canonical.href = canonicalUrl
+  }, [partner, pathname])
 
   return (
     <div className="partner-page">
-      <PageHeader />
-      {partner ? (
-        <PartnerProfile partner={partner} />
-      ) : slug && !cmsLoaded ? (
-        <main className="partner-container partner-main partner-not-found">
-          <h1>Loading partner profile…</h1>
-        </main>
-      ) : slug ? (
-        <main className="partner-container partner-main partner-not-found">
-          <h1>Partner profile not found</h1>
-          <p>The requested profile could not be found.</p>
-          <Link to="/partners" className="partner-primary-button">View all partners</Link>
-        </main>
-      ) : (
-        <PartnerDirectory partners={directory.partners} groups={directory.groups} />
-      )}
-      <footer className="partner-footer">
-        <div className="partner-container">
-          <span>© {CURRENT_YEAR} Digital Education Solutions (DES).</span>
-          <Link to="/">DES Official Website</Link>
-        </div>
-      </footer>
+      <SiteHeader />
+      <div id="main-content">
+        {partner ? (
+          <PartnerProfile partner={partner} />
+        ) : slug && !cmsLoaded ? (
+          <main className="partner-container partner-main partner-not-found">
+            <h1>Loading partner profile…</h1>
+          </main>
+        ) : slug ? (
+          <main className="partner-container partner-main partner-not-found">
+            <h1>Partner profile not found</h1>
+            <p>The requested profile could not be found.</p>
+            <Link to="/partners" className="partner-primary-button">View all partners</Link>
+          </main>
+        ) : (
+          <PartnerDirectory partners={directory.partners} groups={directory.groups} />
+        )}
+      </div>
+      <SiteFooter />
     </div>
   )
 }

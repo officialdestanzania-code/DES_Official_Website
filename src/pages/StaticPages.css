@@ -1,0 +1,55 @@
+.des-static-page{min-height:100vh;background:#f8fafc;color:#102a43}
+.des-static-container{width:min(1120px,90%);margin:0 auto}
+.des-static-hero{padding:82px 0 78px;background:linear-gradient(125deg,#102a43,#174b82);color:#fff}
+.des-static-hero h1{max-width:850px;margin:0 0 18px;font-size:clamp(2.4rem,5vw,3.8rem);line-height:1.1;letter-spacing:-1.7px}
+.des-static-hero h1 span{color:#67e8f9}
+.des-static-hero>div>p{max-width:760px;margin:0;color:#dbeafe;font-size:16px;line-height:1.85}
+.des-static-eyebrow{display:inline-block;margin-bottom:14px;color:#0891b2;font-size:11px;font-weight:850;letter-spacing:2px;text-transform:uppercase}
+.des-static-hero .des-static-eyebrow{color:#67e8f9}
+.des-static-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.des-static-primary,.des-static-secondary{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:12px 17px;border-radius:7px;font-size:13px;font-weight:800;text-decoration:none}
+.des-static-primary{background:#2563eb;color:#fff}
+.des-static-primary:hover{background:#102a43}
+.des-static-secondary{border:1px solid rgba(255,255,255,.55);color:#fff}
+.des-static-secondary:hover{background:rgba(255,255,255,.1)}
+.des-about-main,.des-contact-main{padding-top:60px;padding-bottom:78px}
+.des-about-intro{display:grid;grid-template-columns:1fr 1fr;gap:52px;align-items:start;padding-bottom:47px;border-bottom:1px solid #e2e8f0}
+.des-about-intro h2,.des-static-section-heading h2{margin:0;color:#102a43;font-size:clamp(1.7rem,3vw,2.35rem);line-height:1.25}
+.des-about-intro>p,.des-static-section-heading>p{margin:25px 0 0;color:#64748b;font-size:15px;line-height:1.9}
+.des-about-pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;padding:40px 0 56px}
+.des-about-pillars article,.des-contact-card{padding:26px;border:1px solid #e2e8f0;border-radius:14px;background:#fff;box-shadow:0 8px 24px rgba(16,42,67,.04)}
+.des-static-icon{display:flex;align-items:center;justify-content:center;width:52px;height:52px;margin-bottom:19px;border-radius:13px;background:#eff6ff;color:#2563eb}
+.des-about-pillars h2,.des-contact-card h2{margin:0 0 11px;font-size:19px;color:#102a43}
+.des-about-pillars p,.des-contact-card p,.des-contact-guidance p{margin:0;color:#64748b;font-size:13px;line-height:1.85}
+.des-static-section-heading{margin-bottom:23px}
+.des-static-section-heading>p{margin-top:9px}
+.des-about-focus-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.des-about-focus-card{display:flex;align-items:center;gap:15px;padding:17px;border:1px solid #e2e8f0;border-radius:11px;background:#fff;color:#102a43;text-decoration:none}
+.des-about-focus-card:hover{border-color:#93c5fd;background:#f8fbff}
+.des-about-focus-card .des-static-icon{flex:0 0 auto;width:44px;height:44px;margin:0}
+.des-about-focus-card>span:nth-child(2){display:grid;gap:5px;flex:1}
+.des-about-focus-card strong{font-size:13px}
+.des-about-focus-card small{color:#64748b;font-size:11px;line-height:1.55}
+.des-about-focus-card>svg{flex:0 0 auto;color:#2563eb}
+.des-about-cta{display:flex;align-items:center;justify-content:space-between;gap:25px;margin-top:55px;padding:28px;border-radius:14px;background:#eaf3ff}
+.des-about-cta h2{margin:0 0 8px;font-size:21px}
+.des-about-cta p{margin:0;color:#64748b;font-size:13px;line-height:1.7}
+.des-about-cta .des-static-primary{flex:0 0 auto}
+.des-contact-hero{padding-bottom:72px}
+.des-contact-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:19px}
+.des-contact-card{display:flex;flex-direction:column;align-items:flex-start;min-height:285px}
+.des-contact-card .des-static-primary{margin-top:auto;font-size:12px;overflow-wrap:anywhere}
+.des-contact-card .des-static-eyebrow{margin-bottom:10px}
+.des-contact-primary-card{border-color:#bfdbfe;background:#fff}
+.des-static-text-link{display:inline-flex;align-items:center;gap:8px;margin-top:20px;color:#2563eb;font-size:13px;font-weight:800;text-decoration:none}
+.des-static-text-link:hover{color:#0891b2}
+.des-contact-card .des-static-text-link+.des-static-text-link{margin-top:12px}
+.des-contact-guidance{margin-top:25px;padding:25px;border-radius:13px;background:#eff6ff}
+.des-contact-guidance h2{margin:0 0 10px;font-size:18px}
+@media(max-width:800px){.des-about-pillars,.des-contact-grid{grid-template-columns:1fr}.des-about-intro{grid-template-columns:1fr;gap:12px}.des-about-intro>p{margin-top:10px}.des-about-cta{align-items:flex-start;flex-direction:column}}
+@media(max-width:560px){.des-static-hero{padding:57px 0}.des-about-main,.des-contact-main{padding-top:35px;padding-bottom:50px}.des-about-focus-grid{grid-template-columns:1fr}.des-about-cta{padding:20px}}
+
+.des-not-found{min-height:55vh;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding-top:60px;padding-bottom:60px}
+.des-not-found h1{margin:0 0 12px;font-size:clamp(2rem,4vw,3rem)}
+.des-not-found>p{max-width:620px;color:#64748b;font-size:15px;line-height:1.8}
+.des-not-found-secondary{border:1px solid #2563eb;color:#1d4ed8}

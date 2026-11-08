@@ -19,10 +19,11 @@ import { projects, resourceGroups, solutions } from '../data/siteContent'
 import { butimbaPartners } from '../data/butimbaPartners'
 import type { ProjectItem, SolutionItem } from '../data/siteContent'
 import './ContentHubPage.css'
+import SiteHeader from '../components/SiteHeader'
+import SiteFooter from '../components/SiteFooter'
 
 type Section = 'solutions' | 'projects' | 'resources'
 
-const CURRENT_YEAR = new Date().getUTCFullYear()
 
 const DES_EMAIL = 'officialdestanzania@gmail.com'
 
@@ -89,21 +90,6 @@ const titles: Record<Section, { eyebrow: string; title: string; description: str
     title: 'DES Learning Resources',
     description: 'A starting point for teaching and learning materials available through the DES digital learning environment.',
   },
-}
-
-function HubHeader() {
-  return (
-    <header className="hub-header">
-      <div className="hub-container hub-nav">
-        <Link to="/" className="hub-brand" aria-label="DES Home">
-          <img src="/images/des-ai-logo.png" alt="Digital Education Solutions" />
-        </Link>
-        <Link to="/" className="hub-back-link">
-          <ArrowLeft size={17} /> Back to DES Website
-        </Link>
-      </div>
-    </header>
-  )
 }
 
 function HubIntro({ section }: { section: Section }) {
@@ -282,7 +268,7 @@ function ResourcesPage() {
               <h2>{group.title}</h2>
               <p>{group.description}</p>
               <ul>{group.items.map((entry) => <li key={entry}>{entry}</li>)}</ul>
-              <a href="https://learn.des.co.tz" target="_blank" rel="noopener noreferrer" className="hub-card-link">
+              <a href="https://learn.des.co.tz/login" target="_blank" rel="noopener noreferrer" className="hub-card-link">
                 Open DES Learning Platform <ExternalLink size={16} />
               </a>
             </article>
@@ -303,10 +289,23 @@ export default function ContentHubPage({ section }: { section: Section }) {
 
   useEffect(() => {
     const pageTitle = solution?.title ?? project?.title
-    document.title = pageTitle
+    const title = pageTitle
       ? `${pageTitle} | DES Tanzania`
       : `${titles[section].title} | DES Tanzania`
-  }, [section, solution, project])
+    const description = solution?.summary ?? project?.summary ?? titles[section].description
+    const canonicalUrl = 'https://des.co.tz' + pathname
+    document.title = title
+    const descriptionMeta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
+    const ogTitleMeta = document.querySelector<HTMLMetaElement>('meta[property="og:title"]')
+    const ogDescriptionMeta = document.querySelector<HTMLMetaElement>('meta[property="og:description"]')
+    const ogUrlMeta = document.querySelector<HTMLMetaElement>('meta[property="og:url"]')
+    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+    if (descriptionMeta) descriptionMeta.content = description
+    if (ogTitleMeta) ogTitleMeta.content = title
+    if (ogDescriptionMeta) ogDescriptionMeta.content = description
+    if (ogUrlMeta) ogUrlMeta.content = canonicalUrl
+    if (canonical) canonical.href = canonicalUrl
+  }, [section, solution, project, pathname])
 
   let content
   if (section === 'resources') {
@@ -329,14 +328,9 @@ export default function ContentHubPage({ section }: { section: Section }) {
 
   return (
     <div className="hub-page">
-      <HubHeader />
-      {content}
-      <footer className="hub-footer">
-        <div className="hub-container">
-          <span>© {CURRENT_YEAR} Digital Education Solutions (DES).</span>
-          <Link to="/">DES Official Website</Link>
-        </div>
-      </footer>
+      <SiteHeader />
+      <div id="main-content">{content}</div>
+      <SiteFooter />
     </div>
   )
 }

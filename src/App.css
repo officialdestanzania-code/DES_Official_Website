@@ -17,7 +17,7 @@
 
 #root {
   width: 100%;
-  overflow: hidden;
+  overflow-x: clip;
 }
 
 .container {
@@ -896,3 +896,12 @@
     min-height: 220px;
   }
 }
+
+/* DES DIGITAL STORE CALLOUT */
+.des-store-callout{background:#fff}
+.des-store-callout-inner{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:22px;padding:30px;border:1px solid var(--border);border-radius:15px;background:linear-gradient(110deg,#eff6ff,#f8fafc)}
+.des-store-callout-icon{display:flex;align-items:center;justify-content:center;width:58px;height:58px;border-radius:14px;background:#dbeafe;color:#1d4ed8}
+.des-store-callout-copy h2{margin:7px 0;color:var(--navy);font-size:clamp(20px,2.5vw,27px);line-height:1.25}
+.des-store-callout-copy p{margin:0;color:var(--muted);font-size:13px;line-height:1.7}
+.des-store-callout-button{white-space:nowrap}
+@media(max-width:700px){.des-store-callout-inner{grid-template-columns:auto 1fr;padding:22px}.des-store-callout-button{grid-column:1/-1;width:100%}}

@@ -10,6 +10,7 @@ export type ContributionRecord = {
   description: string
   year: number
   status: 'completed' | 'ongoing' | 'paused' | 'coordination'
+  contributionType?: 'equipment' | 'infrastructure' | 'connectivity' | 'education' | 'coordination' | 'wellbeing' | 'other'
   quantity?: string
 }
 
