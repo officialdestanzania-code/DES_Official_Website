@@ -54,34 +54,73 @@ function renderText(block: NewsBlock) {
 }
 
 function ArticleBody({ blocks }: { blocks: NewsBlock[] }) {
-  return (
-    <div className="des-news-article-body">
-      {blocks.map((block, index) => {
-        if (block._type === 'image' && block.url && block.alt) {
-          return (
-            <figure className="des-news-inline-image" key={block._key ?? index}>
-              <img src={block.url} alt={block.alt} loading="lazy" />
-              {block.caption && <figcaption>{block.caption}</figcaption>}
-            </figure>
-          )
-        }
+  const elements: ReactNode[] = []
+  let index = 0
 
-        if (block._type !== 'block' || !block.children?.length) return null
-        const text = renderText(block)
-        if (block.style === 'h2') return <h2 key={block._key ?? index}>{text}</h2>
-        if (block.style === 'h3') return <h3 key={block._key ?? index}>{text}</h3>
-        if (block.style === 'blockquote') return <blockquote key={block._key ?? index}>{text}</blockquote>
-        if (block.listItem) {
-          return (
-            <ul key={block._key ?? index}>
-              <li>{text}</li>
-            </ul>
-          )
-        }
-        return <p key={block._key ?? index}>{text}</p>
-      })}
-    </div>
-  )
+  while (index < blocks.length) {
+    const block = blocks[index]
+
+    // Keep consecutive Sanity list items in one semantic HTML list.
+    // Numbered items must render as <ol>, not <ul>.
+    if (block._type === 'block' && block.listItem) {
+      const listKind = block.listItem
+      const listLevel = block.level ?? 1
+      const listBlocks: NewsBlock[] = []
+      let cursor = index
+
+      while (cursor < blocks.length) {
+        const candidate = blocks[cursor]
+        if (
+          candidate._type !== 'block' ||
+          candidate.listItem !== listKind ||
+          (candidate.level ?? 1) !== listLevel
+        ) break
+        listBlocks.push(candidate)
+        cursor += 1
+      }
+
+      const ListElement = listKind === 'number' ? 'ol' : 'ul'
+      elements.push(
+        <ListElement key={block._key ?? index}>
+          {listBlocks.map((item, itemIndex) => (
+            <li key={item._key ?? itemIndex}>{renderText(item)}</li>
+          ))}
+        </ListElement>,
+      )
+      index = cursor
+      continue
+    }
+
+    if (block._type === 'image' && block.url && block.alt) {
+      elements.push(
+        <figure className="des-news-inline-image" key={block._key ?? index}>
+          <img src={block.url} alt={block.alt} loading="lazy" />
+          {block.caption && <figcaption>{block.caption}</figcaption>}
+        </figure>,
+      )
+      index += 1
+      continue
+    }
+
+    if (block._type !== 'block' || !block.children?.length) {
+      index += 1
+      continue
+    }
+
+    const text = renderText(block)
+    if (block.style === 'h2') {
+      elements.push(<h2 key={block._key ?? index}>{text}</h2>)
+    } else if (block.style === 'h3') {
+      elements.push(<h3 key={block._key ?? index}>{text}</h3>)
+    } else if (block.style === 'blockquote') {
+      elements.push(<blockquote key={block._key ?? index}>{text}</blockquote>)
+    } else {
+      elements.push(<p key={block._key ?? index}>{text}</p>)
+    }
+    index += 1
+  }
+
+  return <div className="des-news-article-body">{elements}</div>
 }
 
 function ArticleCard({ article, featured = false }: { article: NewsArticle; featured?: boolean }) {
