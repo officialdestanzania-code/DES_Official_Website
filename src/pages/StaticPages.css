@@ -48,3 +48,8 @@
 .des-contact-guidance h2{margin:0 0 10px;font-size:18px}
 @media(max-width:800px){.des-about-pillars,.des-contact-grid{grid-template-columns:1fr}.des-about-intro{grid-template-columns:1fr;gap:12px}.des-about-intro>p{margin-top:10px}.des-about-cta{align-items:flex-start;flex-direction:column}}
 @media(max-width:560px){.des-static-hero{padding:57px 0}.des-about-main,.des-contact-main{padding-top:35px;padding-bottom:50px}.des-about-focus-grid{grid-template-columns:1fr}.des-about-cta{padding:20px}}
+
+.des-not-found{min-height:55vh;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding-top:60px;padding-bottom:60px}
+.des-not-found h1{margin:0 0 12px;font-size:clamp(2rem,4vw,3rem)}
+.des-not-found>p{max-width:620px;color:#64748b;font-size:15px;line-height:1.8}
+.des-not-found-secondary{border:1px solid #2563eb;color:#1d4ed8}
