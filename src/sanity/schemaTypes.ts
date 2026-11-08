@@ -122,7 +122,7 @@ const newsArticle = defineType({
         defineField({ name: 'image', title: 'Image', type: 'image', options: { hotspot: true }, validation: (Rule) => Rule.required() }),
         defineField({ name: 'alt', title: 'Alternative text', type: 'string', description: 'Describe what is visible in the image. Do not leave this blank.', validation: (Rule) => Rule.required() }),
         defineField({ name: 'caption', title: 'Caption / photo credit', type: 'string' }),
-        defineField({ name: 'permissionConfirmed', title: 'Permission for public display confirmed', type: 'boolean', initialValue: false, validation: (Rule) => Rule.required() }),
+        defineField({ name: 'permissionConfirmed', title: 'Permission for public display confirmed', type: 'boolean', initialValue: false, validation: (Rule) => Rule.custom((value) => value === true ? true : 'Confirm permission for public display before publishing.') }),
       ],
       validation: (Rule) => Rule.required(),
     }),
@@ -158,7 +158,7 @@ const newsArticle = defineType({
           fields: [
             defineField({ name: 'alt', title: 'Alternative text', type: 'string', validation: (Rule) => Rule.required() }),
             defineField({ name: 'caption', title: 'Caption / photo credit', type: 'string' }),
-            defineField({ name: 'permissionConfirmed', title: 'Permission for public display confirmed', type: 'boolean', initialValue: false, validation: (Rule) => Rule.required() }),
+            defineField({ name: 'permissionConfirmed', title: 'Permission for public display confirmed', type: 'boolean', initialValue: false, validation: (Rule) => Rule.custom((value) => value === true ? true : 'Confirm permission for public display before publishing.') }),
           ],
         }),
       ],
