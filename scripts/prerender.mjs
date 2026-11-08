@@ -271,9 +271,15 @@ async function main() {
             JSON.stringify(cmsPartnerDirectory).replaceAll('<', '\\u003c') +
             ';</script>'
           : ''
+      const newsDataScript =
+        route.module === '/src/pages/NewsPage.tsx'
+          ? '<script>window.__DES_NEWS_ARTICLES__=' +
+            JSON.stringify(cmsNewsArticles).replaceAll('<', '\\u003c') +
+            ';</script>'
+          : ''
       let html = indexTemplate.replace(
         '<div id="root"></div>',
-        partnerDataScript + '<div id="root" data-prerendered="true">' + renderedPage + '</div>',
+        partnerDataScript + newsDataScript + '<div id="root" data-prerendered="true">' + renderedPage + '</div>',
       )
 
       html = html.replace(/<title>[\s\S]*?<\/title>/i, '<title>' + route.title + '</title>')
