@@ -160,7 +160,11 @@ export async function fetchPartnerDirectoryFromCms(): Promise<PartnerDirectoryDa
 
   const groups = [...groupsBySlug.values()]
     .sort((a, b) => a.displayOrder - b.displayOrder)
-    .map(({ displayOrder: _displayOrder, ...group }) => group)
+    .map((group) => ({
+      slug: group.slug,
+      title: group.title,
+      description: group.description,
+    }))
 
   return { partners, groups }
 }
