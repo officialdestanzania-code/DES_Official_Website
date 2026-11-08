@@ -24,7 +24,6 @@ import SiteFooter from '../components/SiteFooter'
 
 type Section = 'solutions' | 'projects' | 'resources'
 
-const CURRENT_YEAR = new Date().getUTCFullYear()
 
 const DES_EMAIL = 'officialdestanzania@gmail.com'
 
