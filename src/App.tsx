@@ -15,7 +15,8 @@ import SiteHeader from './components/SiteHeader'
 import SiteFooter from './components/SiteFooter'
 import NewsPreview from './components/NewsPreview'
 import { projects, solutions } from './data/siteContent'
-function App() {
+import type { NewsArticle } from './data/sanityNews'
+function App({ initialNewsArticles }: { initialNewsArticles?: NewsArticle[] }) {
   const solutionIcons = {
     learning: BookOpen,
     ai: BrainCircuit,
@@ -200,7 +201,7 @@ function App() {
           </div>
         </section>
 
-        <NewsPreview />
+        <NewsPreview initialArticles={initialNewsArticles} />
 
         <section className="partnership-section section-padding">
           <div className="container partnership-content">
