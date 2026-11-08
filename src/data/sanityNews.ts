@@ -29,6 +29,7 @@ export type NewsBlock = {
   url?: string
   alt?: string
   caption?: string
+  permissionConfirmed?: boolean
 }
 
 export type NewsArticle = {
@@ -40,7 +41,7 @@ export type NewsArticle = {
   publishedAt: string
   author?: string
   featured?: boolean
-  coverImage?: { url?: string; alt: string; caption?: string }
+  coverImage?: { url?: string; alt: string; caption?: string; permissionConfirmed?: boolean }
   body: NewsBlock[]
   tags?: string[]
   sources?: Array<{ label: string; url: string }>
@@ -93,12 +94,12 @@ export async function fetchNewsFromCms(): Promise<NewsArticle[]> {
   const articles = await client.fetch<NewsArticle[]>(newsQuery)
   return articles.map((article) => ({
     ...article,
-    coverImage: article.coverImage?.url && (article as NewsArticle & { coverImage?: { permissionConfirmed?: boolean } }).coverImage?.permissionConfirmed
+    coverImage: article.coverImage?.url && article.coverImage.permissionConfirmed
       ? article.coverImage
       : undefined,
     body: (article.body ?? []).filter((block) => {
       if (block._type !== 'image') return true
-      return Boolean(block.url && (block as NewsBlock & { permissionConfirmed?: boolean }).permissionConfirmed)
+      return Boolean(block.url && block.permissionConfirmed)
     }),
   }))
 }
