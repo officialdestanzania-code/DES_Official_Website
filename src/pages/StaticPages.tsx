@@ -1,5 +1,6 @@
 import { ArrowRight, BookOpen, BrainCircuit, Code2, Globe, Laptop, Lightbulb, Palette, GraduationCap, Mail, Users } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
 import SiteHeader from '../components/SiteHeader'
 import SiteFooter from '../components/SiteFooter'
 import { solutions } from '../data/siteContent'
@@ -126,6 +127,25 @@ export function ContactPage() {
           <h2>Help us direct your enquiry</h2>
           <p>When writing, include the school or organisation you represent, the service or project you are asking about, and the best way for the DES team to respond. Do not send passwords, identity documents or confidential pupil information by email.</p>
         </section>
+      </main>
+      <SiteFooter />
+    </div>
+  )
+}
+
+export function NotFoundPage() {
+  useEffect(() => { document.title = 'Page Not Found | Digital Education Solutions' }, [])
+  return (
+    <div className="des-static-page">
+      <SiteHeader />
+      <main id="main-content" className="des-static-container des-not-found">
+        <span className="des-static-eyebrow">404 · PAGE NOT FOUND</span>
+        <h1>This page is not available.</h1>
+        <p>The link may be incorrect, or the page may have moved. Use the links below to continue exploring DES.</p>
+        <div className="des-static-actions">
+          <Link to="/" className="des-static-primary">Go to DES home <ArrowRight size={17} /></Link>
+          <Link to="/contact" className="des-static-secondary des-not-found-secondary">Contact DES</Link>
+        </div>
       </main>
       <SiteFooter />
     </div>
