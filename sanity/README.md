@@ -73,7 +73,7 @@ Do not publish pupil names, personal contact details, identity documents, confid
 
 ## 6. Publishing and search indexing
 
-New profiles can load from the published CMS through the public partner directory. For new/updated pages to receive refreshed prerendered HTML and sitemap entries, create a Vercel Deploy Hook for the `main` branch and add it as a Sanity webhook for published newsArticle, partner, partnerGroup and contribution changes. Keep the Deploy Hook URL private. Do not expose it in `VITE_*` variables or commit it to Git.
+New profiles can load from the published CMS through the public partner directory. For new/updated pages to receive refreshed prerendered HTML and sitemap entries, create a Vercel Deploy Hook for the production branch `release/butimba-partners-records-2026` and add it as a Sanity webhook for published newsArticle, partner, partnerGroup and contribution changes. Keep the Deploy Hook URL private. Do not expose it in `VITE_*` variables or commit it to Git.
 
 ## 7. Security and operations
 
