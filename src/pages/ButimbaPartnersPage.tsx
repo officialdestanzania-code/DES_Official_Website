@@ -15,7 +15,6 @@ declare global {
   }
 }
 
-const CURRENT_YEAR = new Date().getUTCFullYear()
 const projectUrl = '/projects/butimba-digital-learning-computer-room'
 
 function PartnerCard({ partner }: { partner: ButimbaPartner }) {
