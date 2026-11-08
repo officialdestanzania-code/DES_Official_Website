@@ -3,6 +3,12 @@ import { ArrowRight, CalendarDays } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { fetchNewsFromCms } from '../data/sanityNews'
 import type { NewsArticle } from '../data/sanityNews'
+
+declare global {
+  interface Window {
+    __DES_NEWS_ARTICLES__?: NewsArticle[]
+  }
+}
 import './NewsPreview.css'
 
 function formatDate(value: string) {
@@ -11,11 +17,13 @@ function formatDate(value: string) {
   return new Intl.DateTimeFormat('en-TZ', { day: 'numeric', month: 'short', year: 'numeric' }).format(date)
 }
 
-export default function NewsPreview() {
-  const [articles, setArticles] = useState<NewsArticle[]>([])
-  const [loaded, setLoaded] = useState(false)
+export default function NewsPreview({ initialArticles }: { initialArticles?: NewsArticle[] }) {
+  const seedArticles = initialArticles ?? (typeof window !== 'undefined' ? window.__DES_NEWS_ARTICLES__ : undefined)
+  const [articles, setArticles] = useState<NewsArticle[]>(() => (seedArticles ?? []).slice(0, 3))
+  const [loaded, setLoaded] = useState(() => seedArticles !== undefined)
 
   useEffect(() => {
+    if (seedArticles !== undefined) return
     let cancelled = false
     fetchNewsFromCms()
       .then((items) => {
@@ -28,7 +36,7 @@ export default function NewsPreview() {
         if (!cancelled) setLoaded(true)
       })
     return () => { cancelled = true }
-  }, [])
+  }, [seedArticles])
 
   return (
     <section className="des-home-news section-padding">
