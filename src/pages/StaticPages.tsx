@@ -15,7 +15,29 @@ const icons = {
   skills: GraduationCap,
 }
 
+function setPageMetadata(title: string, description: string, path: string) {
+  document.title = title
+  const descriptionMeta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
+  const ogTitleMeta = document.querySelector<HTMLMetaElement>('meta[property="og:title"]')
+  const ogDescriptionMeta = document.querySelector<HTMLMetaElement>('meta[property="og:description"]')
+  const ogUrlMeta = document.querySelector<HTMLMetaElement>('meta[property="og:url"]')
+  const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+  if (descriptionMeta) descriptionMeta.content = description
+  if (ogTitleMeta) ogTitleMeta.content = title
+  if (ogDescriptionMeta) ogDescriptionMeta.content = description
+  if (ogUrlMeta) ogUrlMeta.content = 'https://des.co.tz' + path
+  if (canonical) canonical.href = 'https://des.co.tz' + path
+}
+
 export function AboutPage() {
+  useEffect(() => {
+    setPageMetadata(
+      'About DES | Digital Education Solutions Tanzania',
+      'Learn about Digital Education Solutions, our vision, mission, values and focus on education, digital skills and creative technology.',
+      '/about',
+    )
+  }, [])
+
   return (
     <div className="des-static-page">
       <SiteHeader />
@@ -89,6 +111,14 @@ export function AboutPage() {
 }
 
 export function ContactPage() {
+  useEffect(() => {
+    setPageMetadata(
+      'Contact DES | Digital Education Solutions Tanzania',
+      'Contact Digital Education Solutions about digital learning, school ICT, education technology and partnership opportunities.',
+      '/contact',
+    )
+  }, [])
+
   return (
     <div className="des-static-page">
       <SiteHeader />
