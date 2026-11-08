@@ -31,6 +31,11 @@ function updateMeta(selector: string, value: string) {
   if (element) element.content = value
 }
 
+function updateCanonical(url: string) {
+  const element = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+  if (element) element.href = url
+}
+
 function renderText(block: NewsBlock) {
   return (block.children ?? []).map((span, index) => {
     let content: ReactNode = span.text ?? ''
@@ -159,12 +164,18 @@ export default function NewsPage({ initialArticles }: { initialArticles?: NewsAr
       updateMeta('meta[property="og:title"]', title)
       updateMeta('meta[property="og:description"]', description)
       updateMeta('meta[property="og:url"]', 'https://des.co.tz/news/' + article.slug)
+      if (article.coverImage?.url) {
+        updateMeta('meta[property="og:image"]', article.coverImage.url)
+        updateMeta('meta[name="twitter:image"]', article.coverImage.url)
+      }
+      updateCanonical('https://des.co.tz/news/' + article.slug)
     } else {
       document.title = 'News & Updates | Digital Education Solutions'
       updateMeta('meta[name="description"]', DEFAULT_DESCRIPTION)
       updateMeta('meta[property="og:title"]', 'News & Updates | Digital Education Solutions')
       updateMeta('meta[property="og:description"]', DEFAULT_DESCRIPTION)
       updateMeta('meta[property="og:url"]', 'https://des.co.tz/news')
+      updateCanonical('https://des.co.tz/news')
     }
   }, [article])
 
@@ -185,6 +196,27 @@ export default function NewsPage({ initialArticles }: { initialArticles?: NewsAr
             </div>
           </section>
           <main id="main-content" className="des-news-container des-news-article-main">
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  '@context': 'https://schema.org',
+                  '@type': 'NewsArticle',
+                  headline: article.title,
+                  description: article.seoDescription || article.excerpt,
+                  datePublished: article.publishedAt,
+                  author: article.author ? { '@type': 'Person', name: article.author } : { '@type': 'Organization', name: 'Digital Education Solutions' },
+                  publisher: {
+                    '@type': 'Organization',
+                    name: 'Digital Education Solutions (DES)',
+                    url: 'https://des.co.tz/',
+                    logo: { '@type': 'ImageObject', url: 'https://des.co.tz/images/des-ai-logo.png' },
+                  },
+                  mainEntityOfPage: 'https://des.co.tz/news/' + article.slug,
+                  ...(article.coverImage?.url ? { image: [article.coverImage.url] } : {}),
+                }).replaceAll('<', '\\u003c'),
+              }}
+            />
             {article.coverImage?.url && (
               <figure className="des-news-cover-image">
                 <img src={article.coverImage.url} alt={article.coverImage.alt} />
