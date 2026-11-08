@@ -62,7 +62,7 @@ function App() {
             </Link>
             <a href="#contact" onClick={closeMenu}>Contact</a>
             <a
-              href="https://learn.des.co.tz"
+              href="https://learn.des.co.tz/login"
               className="nav-cta"
               target="_blank"
               rel="noopener noreferrer"
@@ -282,7 +282,7 @@ function App() {
             >
               officialdestanzania@gmail.com
             </a>
-            <a href="https://learn.des.co.tz" target="_blank" rel="noopener noreferrer">
+            <a href="https://learn.des.co.tz/login" target="_blank" rel="noopener noreferrer">
               DES AI Learning Platform
             </a>
             <a
