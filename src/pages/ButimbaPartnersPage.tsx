@@ -210,10 +210,23 @@ export default function ButimbaPartnersPage({ initialDirectory }: { initialDirec
   const partner = slug ? directory.partners.find((item) => item.slug === slug) : undefined
 
   useEffect(() => {
-    document.title = partner
-      ? partner.name + ' | Butimba Partners | DES Tanzania'
-      : 'Butimba Partners & Supporters | DES Tanzania'
-  }, [partner])
+    const title = partner
+      ? partner.name + ' | Butimba Project Partners | DES Tanzania'
+      : 'Butimba Project Partners & Supporters | DES Tanzania'
+    const description = partner?.summary ?? 'Explore the organisations, coordinators, alumni and supporters connected with the Butimba digital learning project.'
+    const canonicalUrl = 'https://des.co.tz' + pathname
+    document.title = title
+    const descriptionMeta = document.querySelector<HTMLMetaElement>('meta[name="description"]')
+    const ogTitleMeta = document.querySelector<HTMLMetaElement>('meta[property="og:title"]')
+    const ogDescriptionMeta = document.querySelector<HTMLMetaElement>('meta[property="og:description"]')
+    const ogUrlMeta = document.querySelector<HTMLMetaElement>('meta[property="og:url"]')
+    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')
+    if (descriptionMeta) descriptionMeta.content = description
+    if (ogTitleMeta) ogTitleMeta.content = title
+    if (ogDescriptionMeta) ogDescriptionMeta.content = description
+    if (ogUrlMeta) ogUrlMeta.content = canonicalUrl
+    if (canonical) canonical.href = canonicalUrl
+  }, [partner, pathname])
 
   return (
     <div className="partner-page">
