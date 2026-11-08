@@ -61,7 +61,7 @@ const partner = defineType({
     defineField({ name: 'sources', title: 'External project references', type: 'array', of: [{ type: 'partnerSource' }] }),
     defineField({ name: 'gallery', title: 'Profile photo gallery', type: 'array', of: [{ type: 'partnerGalleryImage' }] }),
   ],
-  preview: { select: { title: 'name', subtitle: 'category', media: 'logo' } },
+  preview: { select: { title: 'name', subtitle: 'category' } },
 })
 
 const contribution = defineType({
