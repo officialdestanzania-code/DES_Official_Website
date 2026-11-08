@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity'
+import { defineArrayMember, defineField, defineType } from 'sanity'
 
 const slugField = defineField({
   name: 'slug',
@@ -96,4 +96,84 @@ const contribution = defineType({
   preview: { select: { title: 'title', subtitle: 'year', media: 'gallery.0.image' } },
 })
 
+const newsArticle = defineType({
+  name: 'newsArticle',
+  title: 'News & Update',
+  type: 'document',
+  fields: [
+    defineField({ name: 'title', title: 'Headline', type: 'string', validation: (Rule) => Rule.required().min(8).max(120) }),
+    defineField({ name: 'slug', title: 'Article URL', type: 'slug', options: { source: 'title', maxLength: 90 }, validation: (Rule) => Rule.required() }),
+    defineField({ name: 'category', title: 'Category', type: 'string', options: { list: [
+      { title: 'DES News', value: 'DES News' },
+      { title: 'Project Updates', value: 'Project Updates' },
+      { title: 'Education & Technology', value: 'Education & Technology' },
+      { title: 'Partnerships', value: 'Partnerships' },
+      { title: 'Announcements', value: 'Announcements' },
+    ] }, validation: (Rule) => Rule.required() }),
+    defineField({ name: 'excerpt', title: 'Short summary', type: 'text', rows: 3, validation: (Rule) => Rule.required().min(30).max(260) }),
+    defineField({ name: 'publishedAt', title: 'Publication date and time', type: 'datetime', validation: (Rule) => Rule.required() }),
+    defineField({ name: 'author', title: 'Author / publishing team (optional)', type: 'string' }),
+    defineField({ name: 'featured', title: 'Feature this article on the News page', type: 'boolean', initialValue: false }),
+    defineField({
+      name: 'coverImage',
+      title: 'Cover image',
+      type: 'object',
+      fields: [
+        defineField({ name: 'image', title: 'Image', type: 'image', options: { hotspot: true }, validation: (Rule) => Rule.required() }),
+        defineField({ name: 'alt', title: 'Alternative text', type: 'string', description: 'Describe what is visible in the image. Do not leave this blank.', validation: (Rule) => Rule.required() }),
+        defineField({ name: 'caption', title: 'Caption / photo credit', type: 'string' }),
+        defineField({ name: 'permissionConfirmed', title: 'Permission for public display confirmed', type: 'boolean', initialValue: false, validation: (Rule) => Rule.required() }),
+      ],
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'body',
+      title: 'Article content',
+      type: 'array',
+      of: [
+        defineArrayMember({
+          type: 'block',
+          styles: [
+            { title: 'Normal', value: 'normal' },
+            { title: 'Heading 2', value: 'h2' },
+            { title: 'Heading 3', value: 'h3' },
+            { title: 'Quote', value: 'blockquote' },
+          ],
+          lists: [{ title: 'Bullet', value: 'bullet' }, { title: 'Numbered', value: 'number' }],
+          marks: {
+            decorators: [{ title: 'Strong', value: 'strong' }, { title: 'Emphasis', value: 'em' }],
+            annotations: [
+              defineType({
+                name: 'link',
+                title: 'External link',
+                type: 'object',
+                fields: [defineField({ name: 'href', title: 'URL', type: 'url', validation: (Rule) => Rule.required() })],
+              }),
+            ],
+          },
+        }),
+        defineArrayMember({
+          type: 'image',
+          options: { hotspot: true },
+          fields: [
+            defineField({ name: 'alt', title: 'Alternative text', type: 'string', validation: (Rule) => Rule.required() }),
+            defineField({ name: 'caption', title: 'Caption / photo credit', type: 'string' }),
+            defineField({ name: 'permissionConfirmed', title: 'Permission for public display confirmed', type: 'boolean', initialValue: false, validation: (Rule) => Rule.required() }),
+          ],
+        }),
+      ],
+      validation: (Rule) => Rule.required().min(1),
+    }),
+    defineField({ name: 'tags', title: 'Search tags', type: 'array', of: [{ type: 'string' }], options: { layout: 'tags' } }),
+    defineField({ name: 'sources', title: 'Supporting references / source links', type: 'array', of: [{ type: 'partnerSource' }], description: 'Add reliable source links for factual project or education updates.' }),
+    defineField({ name: 'seoTitle', title: 'SEO title (optional)', type: 'string', validation: (Rule) => Rule.max(65) }),
+    defineField({ name: 'seoDescription', title: 'SEO description (optional)', type: 'text', rows: 2, validation: (Rule) => Rule.max(160) }),
+  ],
+  orderings: [
+    { title: 'Publication date (newest first)', name: 'publishedAtDesc', by: [{ field: 'publishedAt', direction: 'desc' }] },
+  ],
+  preview: { select: { title: 'title', subtitle: 'publishedAt', media: 'coverImage.image' } },
+})
+
 export const partnerSchemaTypes = [partnerGroup, partner, contribution, sourceObject, galleryImage]
+export const siteSchemaTypes = [...partnerSchemaTypes, newsArticle]
