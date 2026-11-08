@@ -41,9 +41,9 @@
 .des-contact-card .des-static-primary{margin-top:auto;font-size:12px;overflow-wrap:anywhere}
 .des-contact-card .des-static-eyebrow{margin-bottom:10px}
 .des-contact-primary-card{border-color:#bfdbfe;background:#fff}
-.des-contact-text-link{display:inline-flex;align-items:center;gap:8px;margin-top:20px;color:#2563eb;font-size:13px;font-weight:800;text-decoration:none}
-.des-contact-text-link:hover{color:#0891b2}
-.des-contact-card .des-contact-text-link+.des-contact-text-link{margin-top:12px}
+.des-static-text-link{display:inline-flex;align-items:center;gap:8px;margin-top:20px;color:#2563eb;font-size:13px;font-weight:800;text-decoration:none}
+.des-static-text-link:hover{color:#0891b2}
+.des-contact-card .des-static-text-link+.des-static-text-link{margin-top:12px}
 .des-contact-guidance{margin-top:25px;padding:25px;border-radius:13px;background:#eff6ff}
 .des-contact-guidance h2{margin:0 0 10px;font-size:18px}
 @media(max-width:800px){.des-about-pillars,.des-contact-grid{grid-template-columns:1fr}.des-about-intro{grid-template-columns:1fr;gap:12px}.des-about-intro>p{margin-top:10px}.des-about-cta{align-items:flex-start;flex-direction:column}}
