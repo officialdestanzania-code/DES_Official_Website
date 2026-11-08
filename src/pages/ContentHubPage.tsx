@@ -19,6 +19,8 @@ import { projects, resourceGroups, solutions } from '../data/siteContent'
 import { butimbaPartners } from '../data/butimbaPartners'
 import type { ProjectItem, SolutionItem } from '../data/siteContent'
 import './ContentHubPage.css'
+import SiteHeader from '../components/SiteHeader'
+import SiteFooter from '../components/SiteFooter'
 
 type Section = 'solutions' | 'projects' | 'resources'
 
@@ -89,21 +91,6 @@ const titles: Record<Section, { eyebrow: string; title: string; description: str
     title: 'DES Learning Resources',
     description: 'A starting point for teaching and learning materials available through the DES digital learning environment.',
   },
-}
-
-function HubHeader() {
-  return (
-    <header className="hub-header">
-      <div className="hub-container hub-nav">
-        <Link to="/" className="hub-brand" aria-label="DES Home">
-          <img src="/images/des-ai-logo.png" alt="Digital Education Solutions" />
-        </Link>
-        <Link to="/" className="hub-back-link">
-          <ArrowLeft size={17} /> Back to DES Website
-        </Link>
-      </div>
-    </header>
-  )
 }
 
 function HubIntro({ section }: { section: Section }) {
@@ -282,7 +269,7 @@ function ResourcesPage() {
               <h2>{group.title}</h2>
               <p>{group.description}</p>
               <ul>{group.items.map((entry) => <li key={entry}>{entry}</li>)}</ul>
-              <a href="https://learn.des.co.tz" target="_blank" rel="noopener noreferrer" className="hub-card-link">
+              <a href="https://learn.des.co.tz/login" target="_blank" rel="noopener noreferrer" className="hub-card-link">
                 Open DES Learning Platform <ExternalLink size={16} />
               </a>
             </article>
@@ -329,14 +316,9 @@ export default function ContentHubPage({ section }: { section: Section }) {
 
   return (
     <div className="hub-page">
-      <HubHeader />
-      {content}
-      <footer className="hub-footer">
-        <div className="hub-container">
-          <span>© {CURRENT_YEAR} Digital Education Solutions (DES).</span>
-          <Link to="/">DES Official Website</Link>
-        </div>
-      </footer>
+      <SiteHeader />
+      <div id="main-content">{content}</div>
+      <SiteFooter />
     </div>
   )
 }
