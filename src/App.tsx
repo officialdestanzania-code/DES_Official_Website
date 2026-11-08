@@ -8,6 +8,7 @@ import {
   GraduationCap,
   Globe,
   Lightbulb,
+  ShoppingBag,
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import './App.css'
@@ -202,6 +203,25 @@ function App({ initialNewsArticles }: { initialNewsArticles?: NewsArticle[] }) {
         </section>
 
         <NewsPreview initialArticles={initialNewsArticles} />
+
+        <section className="des-store-callout section-padding" aria-labelledby="des-store-heading">
+          <div className="container des-store-callout-inner">
+            <div className="des-store-callout-icon"><ShoppingBag size={28} /></div>
+            <div className="des-store-callout-copy">
+              <span className="section-label">DES DIGITAL STORE</span>
+              <h2 id="des-store-heading">Explore the DES Digital Store.</h2>
+              <p>Visit the digital store through the DES learning portal to explore available products and services.</p>
+            </div>
+            <a
+              href="https://learn.des.co.tz/store"
+              className="btn btn-primary des-store-callout-button"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Visit Digital Store <ArrowRight size={18} />
+            </a>
+          </div>
+        </section>
 
         <section className="partnership-section section-padding">
           <div className="container partnership-content">
