@@ -1,6 +1,10 @@
 import { defineCliConfig } from 'sanity/cli'
 
 export default defineCliConfig({
+  deployment: {
+    appId: 'q36gqys524nivk2pvjewn33i',
+  },
+  project: { basePath: '/admin' },
   api: {
     projectId:
       process.env.VITE_SANITY_API_PROJECT_ID ||

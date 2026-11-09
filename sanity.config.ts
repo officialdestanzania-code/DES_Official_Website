@@ -5,11 +5,15 @@ import { siteSchemaTypes } from './src/sanity/schemaTypes'
 
 const projectId =
   process.env.SANITY_STUDIO_PROJECT_ID ||
+  process.env.VITE_SANITY_API_PROJECT_ID ||
+  process.env.VITE_SANITY_STUDIO_PROJECT_ID ||
   process.env.VITE_SANITY_PROJECT_ID ||
   'replace-with-sanity-project-id'
 
 const dataset =
   process.env.SANITY_STUDIO_DATASET ||
+  process.env.VITE_SANITY_API_DATASET ||
+  process.env.VITE_SANITY_STUDIO_DATASET ||
   process.env.VITE_SANITY_DATASET ||
   'production'
 
